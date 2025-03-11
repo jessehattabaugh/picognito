@@ -1,4 +1,8 @@
 // www/components/map-container.js
+import L from 'leaflet';
+// If you need CSS as well, add this to your HTML or import it separately
+// <link rel="stylesheet" href="node_modules/leaflet/dist/leaflet.css" />
+
 /**
  * Map container web component that encapsulates Leaflet functionality
  * @class MapContainer
@@ -31,12 +35,11 @@ class MapContainer extends HTMLElement {
 	async initMap() {
 		if (!this.shadowRoot) return;
 		try {
-			const L = await import('https://unpkg.com/leaflet@1.9.4/dist/leaflet.js');
 			const mapElement = this.shadowRoot.getElementById('map');
 			if (!mapElement) return;
 			this.map = L.map(mapElement).setView([51.505, -0.09], 13);
 			L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-				attribution: '© OpenStreetMap contributors'
+				attribution: '© OpenStreetMap contributors',
 			}).addTo(this.map);
 			console.info('🗺️ 🚀 Map initialized');
 		} catch (error) {

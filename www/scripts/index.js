@@ -10,7 +10,7 @@
 
 // Import web components
 import { CarouselItem } from '/components/carousel-item.js';
-import { ImageCarousel } from '/components/image-carousel.js';
+import { ImageCarousel as ImageCarouselComponent } from '/components/image-carousel.js';
 import { SiteFooter } from '/components/site-footer.js';
 import { SiteHeader } from '/components/site-header.js';
 import { ThemeToggle } from '/components/theme-toggle.js';
@@ -29,7 +29,7 @@ if (!customElements.get('theme-toggle')) {
 }
 
 if (!customElements.get('image-carousel')) {
-	customElements.define('image-carousel', ImageCarousel);
+	customElements.define('image-carousel', ImageCarouselComponent);
 }
 
 if (!customElements.get('carousel-item')) {
@@ -57,11 +57,9 @@ function setupEventListeners() {
 	if (carousel) {
 		carousel.addEventListener(
 			'slide-change',
-			/** @param {SlideChangeEvent} e */ (e) => {
-				console.info('🎠 Slide changed', {
-					current: e.detail.index + 1,
-					total: e.detail.total,
-				});
+			/** @param {CustomEvent} e */ (e) => {
+				const { index, total } = e.detail;
+				console.log('🎠 📊', `Slide changed to ${index} of ${total}`);
 			},
 		);
 	}
