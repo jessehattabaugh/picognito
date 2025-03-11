@@ -34,6 +34,34 @@ This project follows a structured, incremental approach based on Test-Driven Dev
 
 ## 📍 Detailed Milestone Plan
 
+### ✅ Milestone 1: Basic Map Setup
+- [ ]  Install and integrate Leaflet library (no package bundlers, direct ES module import)
+- [ ]  Initialize Leaflet map fullscreen with accessible controls
+- [ ]  Create map-container web component for encapsulated functionality
+- [ ]  Add responsive design for different viewport sizes
+- [ ]  Write E2E Playwright tests to verify map displays and functions correctly
+- [ ]  [Optional] Populate map initially with photos from public APIs (e.g., Unsplash, OpenStreetMap)
+
+### 🗺️ Milestone 2: User Location Integration
+- [ ]  Create geo-location web component to handle location services
+Note: Refining geo-location integration details (UX, permission prompts, & fallback scenarios).
+- [ ]  Implement permission request UX with clear messaging about privacy
+- [ ]  Add custom location marker for user's position on map
+- [ ]  Build graceful fallback for geolocation permission denial
+- [ ]  Implement location accuracy indicator
+- [ ]  Add location refresh functionality with appropriate UI indicators
+- [ ]  Write Playwright tests for geolocation scenarios (including permission denial)
+
+### 📱 Milestone 3: Offline PWA Functionality
+- [ ]  Configure service worker for offline access with proper caching strategies
+- [ ]  Implement manifest.json with appropriate PWA metadata
+- [ ]  Create offline.html with clear messaging and functionality
+- [ ]  Add install prompts with deferrable UI
+- [ ]  Implement background sync for offline data
+- [ ]  Create IndexedDB storage schema for offline photos
+- [ ]  Add clear visual indicators for online/offline state
+- [ ]  Test PWA functionality on multiple devices and browsers
+
 ### 📸 Milestone 4: Photo Capture and Local Storage
 - [ ] Create camera-interface web component with accessibility features
 - [ ] Implement secure local storage for captured photos using IndexedDB
