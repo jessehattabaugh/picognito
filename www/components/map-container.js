@@ -8,7 +8,7 @@ import L from 'leaflet';
  * @class MapContainer
  * @extends HTMLElement
  */
-class MapContainer extends HTMLElement {
+export class MapContainer extends HTMLElement {
 	/**
 	 * Creates an instance of MapContainer
 	 * @constructor
@@ -42,6 +42,9 @@ class MapContainer extends HTMLElement {
 				attribution: '© OpenStreetMap contributors',
 			}).addTo(this.map);
 			console.info('🗺️ 🚀 Map initialized');
+
+			// Dispatch event when map is ready
+			this.dispatchEvent(new CustomEvent('map-ready', { bubbles: true }));
 		} catch (error) {
 			console.error('🗺️ ❌ Failed to load Leaflet:', error);
 		}
@@ -83,6 +86,49 @@ class MapContainer extends HTMLElement {
 			<slot></slot>
 		`;
 	}
+
+	/**
+	 * Gets the current map zoom level
+	 * @returns {number} The current zoom level
+	 */
+	getZoom() {
+		return this.map ? this.map.getZoom() : 0;
+	}
+
+	/**
+	 * Gets the current map center
+	 * @returns {{lat: number, lng: number}} The center coordinates
+	 */
+	getCenter() {
+		return this.map ? this.map.getCenter() : { lat: 0, lng: 0 };
+	}
+
+	/**
+	 * Requests geolocation and centers map on user position
+	 * @returns {Promise<void>}
+	 */
+	async requestGeolocation() {
+		console.info('🗺️ 📍 Requesting geolocation');
+		if (!navigator.geolocation) {
+			console.warn('🗺️ ⚠️ Geolocation not supported');
+			return;
+		}
+
+		try {
+			const position = await new Promise((resolve, reject) => {
+				navigator.geolocation.getCurrentPosition(resolve, reject);
+			});
+
+			const { latitude, longitude } = position.coords;
+			if (this.map) {
+				this.map.setView([latitude, longitude], 15);
+				console.info('🗺️ 📍 Map centered on user location');
+			}
+		} catch (error) {
+			console.error('🗺️ ❌ Geolocation error:', error);
+		}
+	}
 }
 
-customElements.define('map-container', MapContainer);
+// Remove this line since we're now registering the component in index.js
+// customElements.define('map-container', MapContainer);
