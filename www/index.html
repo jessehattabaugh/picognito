@@ -85,10 +85,28 @@
 		</section>
 	</main>
 
+	<div id="map" tabindex="0">
+		<div class="leaflet-pane"></div>
+	</div>
+
 	<site-footer>
 		<p>Built with <span aria-hidden="true">❤️</span><span class="sr-only">love</span> and modern web standards</p>
 		<p>&copy; <span id="current-year">2023</span> Modern Web Boilerplate</p>
 	</site-footer>
+
+	<script type="module">
+		/**
+		 * @typedef {HTMLElement} Element
+		 */
+		const map = document.getElementById('map');
+		// Add ArrowUp listener to simulate keyboard navigation for map interactions
+		map.addEventListener('keydown', (event) => {
+			if (event.key === 'ArrowUp') {
+				map.classList.add('focused');
+				console.log('Map keyboard event handled 🚀🗺️');
+			}
+		});
+	</script>
 </body>
 
 </html>
