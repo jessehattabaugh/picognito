@@ -22,6 +22,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Map loading indicators and error handling
 - End-to-end tests for map functionality
 - Responsive design for map on different viewport sizes
+- Populate map initially with photos from Unsplash API using new module populate-photos.js 🚀📸
+- End-to-end Playwright test for capturing map screenshot 🚀🗺️
 
 ### Fixed
 
@@ -42,6 +44,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Form validation and error handling
 - Success/error message display for form submissions
 - Map markers for displaying photo locations
+
+### Changed
+- Updated README.md to refine milestone details for geo-location integration 🚀🗺️
 
 ## [1.1.0] - 2024-01-17
 

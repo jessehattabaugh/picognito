@@ -18,15 +18,16 @@
 ## Development Milestones & Steps
 
 ### ✅ Milestone 1: Basic Map Setup
-- [ ] Install and integrate Leaflet library (no package bundlers, direct ES module import)
-- [ ] Initialize Leaflet map fullscreen with accessible controls
-- [ ] Create map-container web component for encapsulated functionality
-- [ ] Add responsive design for different viewport sizes
-- [ ] Write E2E Playwright tests to verify map displays and functions correctly
+- [x] Install and integrate Leaflet library (no package bundlers, direct ES module import)
+- [x] Initialize Leaflet map fullscreen with accessible controls
+- [x] Create map-container web component for encapsulated functionality
+- [x] Add responsive design for different viewport sizes
+- [x] Write E2E Playwright tests to verify map displays and functions correctly
 - [ ] [Optional] Populate map initially with photos from public APIs (e.g., Unsplash, OpenStreetMap)
 
 ### 🗺️ Milestone 2: User Location Integration
 - [ ] Create geo-location web component to handle location services
+  - Note: Refining geo-location integration details (UX, permission prompts, & fallback scenarios).
 - [ ] Implement permission request UX with clear messaging about privacy
 - [ ] Add custom location marker for user's position on map
 - [ ] Build graceful fallback for geolocation permission denial

@@ -30,6 +30,7 @@ class MapContainer extends HTMLElement {
 		this.#initializeMap();
 		this.setAttribute('data-state', 'ready');
 		console.info('🗺️ ✅ Map initialization complete');
+		this.fetchPhotos();
 	}
 
 	/**
@@ -99,6 +100,28 @@ class MapContainer extends HTMLElement {
 			this.setAttribute(
 				'aria-label',
 				`Map at zoom level ${zoom}. Use arrow keys to pan, plus and minus to zoom.`,
+			);
+		});
+	}
+
+	/**
+	 * Fetch photos from Unsplash API and add them to the map
+	 * @returns {Promise<void>}
+	 */
+	async fetchPhotos() {
+		const response = await fetch(
+			'https://api.unsplash.com/photos/random?count=10&client_id=YOUR_UNSPLASH_ACCESS_KEY',
+		);
+		const photos = await response.json();
+		photos.forEach((photo) => {
+			const marker = L.marker([
+				photo.location.position.latitude,
+				photo.location.position.longitude,
+			]).addTo(this.#map);
+			marker.bindPopup(
+				`<img src="${photo.urls.small}" alt="${photo.alt_description}"><p>${
+					photo.description || 'No description'
+				}</p>`,
 			);
 		});
 	}

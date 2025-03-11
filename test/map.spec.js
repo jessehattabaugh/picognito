@@ -37,7 +37,7 @@ test.describe('Map Component 🗺️', () => {
 		// Verify zoom level changed
 		const zoomLevel = await page.evaluate(() => {
 			const container = document.querySelector('map-container');
-			const map = container && container.map ? container.map : null;
+			const map = container ? container.map : null;
 			return map ? map.getZoom() : 0;
 		});
 
@@ -57,7 +57,7 @@ test.describe('Map Component 🗺️', () => {
 		// Verify longitude is within bounds
 		const longitude = await page.evaluate(() => {
 			const container = document.querySelector('map-container');
-			const map = container && container.map ? container.map : null;
+			const map = container ? container.map : null;
 			return map ? map.getCenter().lng : 0;
 		});
 
@@ -93,7 +93,7 @@ test.describe('Map Component 🗺️', () => {
 		await page.keyboard.press('+');
 		const zoomLevel = await page.evaluate(() => {
 			const container = document.querySelector('map-container');
-			const map = container && container.map ? container.map : null;
+			const map = container ? container.map : null;
 			return map ? map.getZoom() : 0;
 		});
 		expect(zoomLevel).toBeGreaterThan(2);
