@@ -106,7 +106,7 @@ test.describe('Contact Form 📨', () => {
 		// Check for error message
 		await page.waitForSelector('#formStatus.error');
 		const errorMessage = await page.textContent('#formStatus');
-		expect(errorMessage).toContain('Failed to send message');
+		expect(errorMessage).toContain('Server error');
 
 		// Take screenshot of error state
 		await expect(page).toHaveScreenshot('contact-form-server-error.png');
@@ -114,27 +114,27 @@ test.describe('Contact Form 📨', () => {
 	});
 
 	test('keyboard navigation works correctly ⌨️', async ({ page }) => {
-		// Start from the top of the page
+		await page.goto('/contact.html');
+		await page.waitForSelector('#contactForm');
+
+		// First tab should focus skip link
 		await page.keyboard.press('Tab');
+		let focusedElement = await page.evaluate(() => document.activeElement?.tagName);
+		expect(focusedElement).toBe('A'); // Skip link
 
-		// First tab should focus on skip link
-		const skipLinkFocused = await page.evaluate(() => {
-			return document.activeElement.textContent.includes('Skip to');
-		});
-		expect(skipLinkFocused).toBeTruthy();
+		// Second tab should focus nav
+		await page.keyboard.press('Tab');
+		focusedElement = await page.evaluate(() => document.activeElement?.tagName);
+		expect(focusedElement).toBe('A'); // Nav link
 
-		// Tab to the name field
-		await page.keyboard.press('Tab'); // Nav link 1
-		await page.keyboard.press('Tab'); // Nav link 2
-		await page.keyboard.press('Tab'); // Nav link 3
-		await page.keyboard.press('Tab'); // Theme toggle
-		await page.keyboard.press('Tab'); // Name field
+		// Keep tabbing until we reach the form
+		for (let i = 0; i < 3; i++) {
+			await page.keyboard.press('Tab');
+		}
 
-		// Check if name field is focused
-		const nameFieldFocused = await page.evaluate(() => {
-			return document.activeElement.id === 'name';
-		});
-		expect(nameFieldFocused).toBeTruthy();
+		// Should now be on name field
+		focusedElement = await page.evaluate(() => document.activeElement?.id);
+		expect(focusedElement).toBe('name');
 
 		// Continue tabbing through the form
 		await page.keyboard.press('Tab'); // Email field

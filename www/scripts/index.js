@@ -3,6 +3,11 @@
  * 🏠 Handles components and interactions for the index page
  */
 
+/**
+ * @typedef {import('../components/image-carousel.js').ImageCarousel} ImageCarousel
+ * @typedef {CustomEvent<{index: number, total: number}>} SlideChangeEvent
+ */
+
 // Import web components
 import { CarouselItem } from '/components/carousel-item.js';
 import { ImageCarousel } from '/components/image-carousel.js';
@@ -44,20 +49,23 @@ function updateDynamicContent() {
 
 /**
  * Setup event listeners for page interactions
+ * @returns {void}
  */
 function setupEventListeners() {
-	// Listen for carousel events
+	/** @type {ImageCarousel | null} */
 	const carousel = document.querySelector('image-carousel');
 	if (carousel) {
-		carousel.addEventListener('slide-change', (e) => {
-			console.info('🎠 Slide changed', {
-				current: e.detail.index + 1,
-				total: e.detail.total
-			});
-		});
+		carousel.addEventListener(
+			'slide-change',
+			/** @param {SlideChangeEvent} e */ (e) => {
+				console.info('🎠 Slide changed', {
+					current: e.detail.index + 1,
+					total: e.detail.total,
+				});
+			},
+		);
 	}
 
-	// Handle CTA button interactions
 	const ctaButton = document.querySelector('.cta-button');
 	if (ctaButton) {
 		ctaButton.addEventListener('click', () => {

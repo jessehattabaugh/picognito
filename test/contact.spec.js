@@ -201,23 +201,33 @@ test.describe('Contact Form 📨', () => {
     });
 
     test('shows loading state while submitting 🔄', async ({ page }) => {
+        await page.goto('/contact.html');
+
+        // Setup response interception with delay
+        await page.route('**/.netlify/functions/contact-form', async (route) => {
+            await new Promise(resolve => setTimeout(resolve, 100)); // Add delay
+            await route.fulfill({
+                status: 200,
+                contentType: 'application/json',
+                body: JSON.stringify({ message: 'success' })
+            });
+        });
+
         // Fill out form
         await page.fill('#name', 'Test User');
         await page.fill('#email', 'test@example.com');
         await page.fill('#message', 'Test message');
 
-        // Start intercepting form submission
-        const responsePromise = page.waitForResponse('**/.netlify/functions/contact-form');
+        // Start form submission
+        const submitPromise = page.click('button[type="submit"]');
 
-        // Submit form
-        await page.click('button[type="submit"]');
-
-        // Check loading state
+        // Check loading state immediately after submission
+        await page.waitForSelector('#formStatus:not(:empty)');
         const formStatus = await page.textContent('#formStatus');
         expect(formStatus).toBe('Sending...');
 
-        // Wait for response
-        await responsePromise;
+        // Wait for submission to complete
+        await submitPromise;
     });
 
     test('preserves user input on validation errors 💾', async ({ page }) => {
