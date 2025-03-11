@@ -7,6 +7,7 @@
 		"eslint": "latest",
 		"glob": "latest",
 		"globals": "latest",
+		"leaflet": "^1.9.4",
 		"netlify-cli": "latest"
 	},
 	"scripts": {
