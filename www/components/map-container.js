@@ -26,6 +26,9 @@ export class MapContainer extends HTMLElement {
 	connectedCallback() {
 		this.render();
 		this.initMap();
+		// Enhance screen reader compatibility 🚀🔍
+		this.setAttribute('role', 'region');
+		this.setAttribute('aria-label', 'Map view');
 	}
 
 	/**
@@ -129,6 +132,3 @@ export class MapContainer extends HTMLElement {
 		}
 	}
 }
-
-// Remove this line since we're now registering the component in index.js
-// customElements.define('map-container', MapContainer);
