@@ -6,6 +6,9 @@
  * @typedef {import('leaflet').TileLayerOptions} TileLayerOptions
  */
 
+// Import Leaflet as an ES module
+import * as L from 'https://unpkg.com/leaflet@1.9.4/dist/leaflet-src.esm.js';
+
 class MapContainer extends HTMLElement {
 	/** @type {LeafletMap|null} */
 	#map = null;
@@ -111,6 +114,47 @@ class MapContainer extends HTMLElement {
 			this.#tileLayer = null;
 			console.info('🗺️ 🧹 Map cleaned up');
 		}
+	}
+
+	/**
+	 * Renders component HTML structure
+	 * @returns {void}
+	 */
+	render() {
+		this.shadowRoot.innerHTML = `
+			<style>
+				:host {
+					display: block;
+					width: 100%;
+					height: 100%;
+				}
+
+				#map {
+					height: 100%;
+					width: 100%;
+					z-index: 1;
+				}
+
+				/* Accessibility styles */
+				.sr-only {
+					position: absolute;
+					width: 1px;
+					height: 1px;
+					padding: 0;
+					margin: -1px;
+					overflow: hidden;
+					clip: rect(0, 0, 0, 0);
+					border: 0;
+				}
+
+				/* Responsive styles */
+				@media (max-width: 768px) {
+					/* Mobile optimizations */
+				}
+			</style>
+			<div id="map" role="application" aria-label="Interactive map showing photos around you"></div>
+			<slot></slot>
+		`;
 	}
 }
 

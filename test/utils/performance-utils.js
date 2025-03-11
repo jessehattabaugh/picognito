@@ -6,18 +6,27 @@ import { expect } from '@playwright/test';
  */
 
 /**
+ * @typedef {Object} PerformanceInterface
+ * @property {number} navigationStart - Navigation start timestamp
+ * @property {number} responseStart - Response start timestamp
+ * @property {number} requestStart - Request start timestamp
+ * @property {number} domContentLoadedEventEnd - DOM content loaded event end timestamp
+ * @property {number} loadEventEnd - Load event end timestamp
+ */
+
+/**
  * Asserts that the given performance metrics meet the baseline requirements.
  * @param {string} testName - The name of the test.
  * @param {PerformanceMetrics} metrics - The performance metrics to compare.
  */
 export async function assertPerformanceBaseline(testName, metrics) {
 	// Implement your baseline comparison logic here
-	console.info(`Asserting performance baseline for ${testName}`);
+	console.info('📊 🧪 Asserting performance baseline for', testName);
 	// Example assertion
 	if (metrics.FCP !== undefined) {
 		expect(metrics.FCP).toBeLessThan(2000);
 	} else {
-		console.warn(`FCP metric is not available for ${testName}`);
+		console.warn('📊 ⚠️ FCP metric is not available for', testName);
 	}
 }
 
@@ -47,7 +56,7 @@ export async function getBrowserPerformanceMetrics(page) {
  */
 export async function getLighthouseScores(url) {
 	// Implement your Lighthouse testing logic here
-	console.info(`Getting Lighthouse scores for ${url}`);
+	console.info('📊 🔍 Getting Lighthouse scores for', url);
 	// Example scores
 	return {
 		performance: 95,

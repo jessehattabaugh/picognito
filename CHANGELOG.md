@@ -23,6 +23,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - End-to-end tests for map functionality
 - Responsive design for map on different viewport sizes
 
+### Fixed
+
+- Map component visibility in tests
+- Map initialization detection
+- Keyboard navigation focus management
+- Added proper ES module import for Leaflet library
+- Improved JSDoc type definitions in utility functions
+- Fixed console logging patterns to follow project guidelines
+- Added safety checks for DOM manipulation and event handlers
+- Fixed undefined variable references in test utilities
+- Enhanced error handling for asynchronous operations
+
 ### In Progress
 
 - Contact form handling with Netlify Functions
@@ -30,12 +42,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Form validation and error handling
 - Success/error message display for form submissions
 - Map markers for displaying photo locations
-
-### Fixed
-
-- Map component visibility in tests
-- Map initialization detection
-- Keyboard navigation focus management
 
 ## [1.1.0] - 2024-01-17
 
