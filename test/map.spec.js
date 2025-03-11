@@ -37,7 +37,7 @@ test.describe('Map Component 🗺️', () => {
 		// Verify zoom level changed
 		const zoomLevel = await page.evaluate(() => {
 			const container = document.querySelector('map-container');
-			const map = container ? container.map : null;
+			const map = container ? container.getMap() : null;
 			return map ? map.getZoom() : 0;
 		});
 
@@ -57,7 +57,7 @@ test.describe('Map Component 🗺️', () => {
 		// Verify longitude is within bounds
 		const longitude = await page.evaluate(() => {
 			const container = document.querySelector('map-container');
-			const map = container ? container.map : null;
+			const map = container ? container.getMap() : null;
 			return map ? map.getCenter().lng : 0;
 		});
 
@@ -93,7 +93,7 @@ test.describe('Map Component 🗺️', () => {
 		await page.keyboard.press('+');
 		const zoomLevel = await page.evaluate(() => {
 			const container = document.querySelector('map-container');
-			const map = container ? container.map : null;
+			const map = container ? container.getMap() : null;
 			return map ? map.getZoom() : 0;
 		});
 		expect(zoomLevel).toBeGreaterThan(2);
@@ -132,5 +132,54 @@ test.describe('Map Component 🗺️', () => {
 		});
 
 		expect(focused).toBeTruthy();
+	});
+
+	test('map geolocation and photo markers 🗺️ 📸', async ({ page }) => {
+		await page.goto('/');
+
+		// Wait for map to be ready
+		await page.waitForSelector('map-container', { state: 'attached' });
+		await page.waitForSelector('.leaflet-container', { state: 'visible', timeout: 10000 });
+
+		// Take initial screenshot
+		await page.screenshot({ path: 'test-results/map-initial.png' });
+
+		// Mock geolocation to Portland, Oregon
+		await page.context().grantPermissions(['geolocation']);
+		await page.context().setGeolocation({ latitude: 45.5152, longitude: -122.6784 });
+
+		// Trigger geolocation
+		await page.evaluate(() => {
+			navigator.geolocation.getCurrentPosition = (success) => {
+				success({ coords: { latitude: 45.5152, longitude: -122.6784, accuracy: 1, altitude: null, altitudeAccuracy: null, heading: null, speed: null } });
+			};
+			const mapContainer = document.querySelector('map-container');
+			if (mapContainer) {
+				mapContainer.dispatchEvent(new Event('geolocation'));
+			}
+		});
+
+		// Wait for map to update
+		await page.waitForTimeout(3000);
+
+		// Take screenshot after geolocation
+		await page.screenshot({ path: 'test-results/map-geolocation.png' });
+
+		// Verify map centered on Portland
+		const center = await page.evaluate(() => {
+			const container = document.querySelector('map-container');
+			const map = container ? container.getMap() : null;
+			return map ? map.getCenter() : { lat: 0, lng: 0 };
+		});
+		expect(center.lat).toBeCloseTo(45.5152, 1);
+		expect(center.lng).toBeCloseTo(-122.6784, 1);
+
+		// Verify photo markers are displayed
+		const markers = await page.evaluate(() => {
+			const container = document.querySelector('map-container');
+			const map = container ? container.getMap() : null;
+			return map ? map.eachLayer(layer => layer instanceof L.Marker).length : 0;
+		});
+		expect(markers).toBeGreaterThan(0);
 	});
 });
