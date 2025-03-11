@@ -30,7 +30,8 @@
 ### JavaScript Practices
 
 -   **Typing:** Always provide JSDoc type annotations
--   **Modules:** Use ES modules exclusively with named exports/imports
+-   **Modules:** Use ES modules exclusively with named exports/imports, break large modules into smaller reusable modules loaded natively
+-   **Async/Await:** Use async/await syntax with Fetch API for cleaner asynchronous code
 -   **Features:** Employ modern JavaScript features (destructuring, template literals, arrow functions)
 -   **Function Creation:** Only create new functions for code reuse:
     -   Functions must have at least two call sites or be passed as callbacks
@@ -56,19 +57,16 @@
 
 ## 🎨 HTML & CSS Guidelines
 
--   **Semantic HTML:** Utilize HTML5 elements for proper document structure
+-   **Web Components:** Utilize Custom Elements and Semantic HTML5 for proper document structure
 -   **Lean Markup:** Write minimal HTML with few wrapper elements
--   **CSS Selectors:** Use simple, shallow selectors; avoid overly nested rules
--   **Mobile-First:** Prioritize mobile-first design and progressive enhancement
+-   **Modern CSS Techniques:** Make pages responsive by using modern `@container` queries, Prefer Grid and Flexbox for layours. Avoid floats and clearfix hacks
+-   **Manage Specificity:** Organize styles in logical groups using `@layer`, encapsulate CSS in shadow DOM, and use simple, shallow selectors; avoid overly nested rules
+-   **Mobile-First:** Prioritize mobile-first design and
 -   **Accessibility:** Adhere strictly to WCAG AA guidelines minimum; ensure keyboard navigation
 -   **Performance:** Optimize for excellent Core Web Vitals scores
 
 ## 🧪 Testing Principles
 
--   **Real User Flow Testing:** Only test functionality through user-facing web pages
--   **No Mocks:** Do not create mocks, fixtures, or unit tests—only end-to-end tests of actual pages
--   **Test First:** Write tests before implementing features that interact with what a user would see
--   **Isolation:** Tests should be independent and not depend on other tests
--   **Documentation:** Tests serve as documentation; write clear test descriptions
+We follow a user-focused, end-to-end testing approach. For comprehensive testing guidelines, practices, and examples, refer to [TESTING.md](TESTING.md).
 
 See [TESTING.md](TESTING.md) for detailed testing practices and [ARCHITECTURE.md](ARCHITECTURE.md) for project structure.

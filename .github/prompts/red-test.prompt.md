@@ -7,7 +7,7 @@ You're in **"Red"** mode: your only goal is to create a test that clearly fails,
 
 ### Instructions:
 
--   Reference: `README.md`, `CONTRIBUTING.md`, and `TESTING_GUIDELINES.md`.
+-   Reference: `README.md`, `STYLE_GUIDE.md`, and `TESTING.md`.
 -   Clearly document test intentions with descriptive naming.
 -   Tests **MUST** fail when initially executed.
 -   Do **not** write any implementation code or fix tests yet.

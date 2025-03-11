@@ -2,7 +2,7 @@
 
 ## 📋 Development Approach
 
-This project follows a structured, incremental approach based on Test-Driven Development (TDD) principles. Each milestone involves clear, testable features with corresponding end-to-end tests that interact with actual web pages through the user interface.
+This project follows a structured, incremental approach based on Test-Driven Development (TDD) principles. Each milestone involves clear, testable features with corresponding end-to-end tests as described in [TESTING.md](TESTING.md).
 
 ## 🗓️ Timeline Overview
 

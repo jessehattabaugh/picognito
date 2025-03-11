@@ -31,7 +31,7 @@ picognito/
 - **Frontend**: HTML/CSS/JavaScript with Web Components architecture
 - **Mapping**: Leaflet for interactive maps and location features
 - **Backend**: Netlify Functions & Database for serverless operations
-- **Testing**: Playwright for end-to-end testing of actual user-facing pages
+- **Testing**: Playwright for end-to-end testing of actual user-facing pages (see [TESTING.md](TESTING.md))
 - **PWA**: Service workers and manifests for offline capabilities
 
 ## 🏗️ Technical Architecture
@@ -43,7 +43,7 @@ picognito/
 - **Progressive Enhancement**: Core functionality works without JS
 - **Offline-First**: Service worker with strategic caching
 - **Accessibility**: WCAG AA compliance as minimum standard
-- **Testing**: End-to-end tests of user-visible pages and functionality
+- **Testing**: End-to-end tests of user-visible pages and functionality (see [TESTING.md](TESTING.md))
 
 ### Technical Choices
 
@@ -60,7 +60,7 @@ picognito/
 - **Netlify Database**: Storage for shared photos
 
 #### Testing Stack
-- **Playwright**: End-to-end testing of real HTML pages and user interactions
+- **Playwright**: End-to-end testing of real HTML pages and user interactions (see [TESTING.md](TESTING.md))
 - **Screenshot Testing**: Visual regression testing with approved baselines
 - **Test-Driven Development**: Start with failing tests of real user interfaces
 

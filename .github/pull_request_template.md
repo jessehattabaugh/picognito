@@ -4,8 +4,8 @@ Clearly summarize your changes.
 
 ### ✅ Checklist
 
--   [ ] Tests written and passing
--   [ ] Code matches guidelines in `STYLE_GUIDE.md` and `TESTING.md`
+-   [ ] Tests written and passing (see `TESTING.md`)
+-   [ ] Code matches guidelines in `STYLE_GUIDE.md`
 -   [ ] Documentation updated (`ROADMAP.md`, `CHANGELOG.md`)
 -   [ ] Tested across browsers (Chrome, Firefox, Safari)
 -   [ ] No console errors or warnings left behind
