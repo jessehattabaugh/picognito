@@ -35,93 +35,117 @@ This project follows a structured, incremental approach based on Test-Driven Dev
 ## 📍 Detailed Milestone Plan
 
 ### ✅ Milestone 1: Basic Map Setup
-- [ ]  Install and integrate Leaflet library (no package bundlers, direct ES module import)
-- [ ]  Initialize Leaflet map fullscreen with accessible controls
-- [ ]  Create map-container web component for encapsulated functionality
-- [ ]  Add responsive design for different viewport sizes
-- [ ]  Write E2E Playwright tests to verify map displays and functions correctly
-- [ ]  [Optional] Populate map initially with photos from public APIs (e.g., Unsplash, OpenStreetMap)
+- [ ] Write failing E2E tests for map rendering and basic interactions
+- [ ] Create map-container web component following WCAG AA accessibility standards
+- [ ] Install and integrate Leaflet library via direct ES module imports (no bundlers)
+- [ ] Initialize responsive Leaflet map fullscreen with accessible controls
+- [ ] Add keyboard navigation support for map interactions
+- [ ] Implement screen reader compatibility for map features
+- [ ] [Optional] Add sample data from public APIs (e.g., Unsplash) with proper attribution
 
 ### 🗺️ Milestone 2: User Location Integration
-- [ ]  Create geo-location web component to handle location services
-Note: Refining geo-location integration details (UX, permission prompts, & fallback scenarios).
-- [ ]  Implement permission request UX with clear messaging about privacy
-- [ ]  Add custom location marker for user's position on map
-- [ ]  Build graceful fallback for geolocation permission denial
-- [ ]  Implement location accuracy indicator
-- [ ]  Add location refresh functionality with appropriate UI indicators
-- [ ]  Write Playwright tests for geolocation scenarios (including permission denial)
+- [ ] Write failing tests for geolocation functionality and permission scenarios
+- [ ] Create geo-location web component with proper encapsulation
+- [ ] Design clear, accessible permission request UX with privacy-focused messaging
+- [ ] Implement custom location marker with appropriate ARIA attributes
+- [ ] Build privacy-preserving accuracy controls (neighborhood vs. exact location)
+- [ ] Create graceful fallbacks for permission denial or unavailable geolocation
+- [ ] Add visual and screen-reader compatible location accuracy indicators
+- [ ] Implement location refresh functionality with appropriate loading states
+- [ ] Add offline location caching with clear user control over stored data
 
-### 📱 Milestone 3: Offline PWA Functionality
-- [ ]  Configure service worker for offline access with proper caching strategies
-- [ ]  Implement manifest.json with appropriate PWA metadata
-- [ ]  Create offline.html with clear messaging and functionality
-- [ ]  Add install prompts with deferrable UI
-- [ ]  Implement background sync for offline data
-- [ ]  Create IndexedDB storage schema for offline photos
-- [ ]  Add clear visual indicators for online/offline state
-- [ ]  Test PWA functionality on multiple devices and browsers
+### 📱 Milestone 3: PWA & Offline Functionality
+- [ ] Write failing tests for offline capabilities and PWA features
+- [ ] Create service worker with strategic caching tailored for map and image content
+- [ ] Implement manifest.json with proper icons from screenshot testing baselines
+- [ ] Design offline-experience web component with clear status indicators
+- [ ] Create IndexedDB storage schema and utility web component
+- [ ] Add deferrable installation UI prompts
+- [ ] Implement background sync for offline data with privacy controls
+- [ ] Create network-status web component with visual and screen reader indicators
+- [ ] Add comprehensive testing across multiple devices and connection scenarios
 
-### 📸 Milestone 4: Photo Capture and Local Storage
-- [ ] Create camera-interface web component with accessibility features
-- [ ] Implement secure local storage for captured photos using IndexedDB
-- [ ] Add photo preview functionality with simple editing tools
-- [ ] Build privacy slider to control metadata and blurring level
-- [ ] Create gallery view for locally stored photos
-- [ ] Implement EXIF data stripping client-side
-- [ ] Add photo location linking with map markers
+### 📸 Milestone 4: Privacy-First Photo Capture
+- [ ] Write failing tests for camera functionality and local storage
+- [ ] Create accessible camera-interface web component with keyboard controls
+- [ ] Implement secure IndexedDB storage for local photos with encryption
+- [ ] Design privacy-controls web component with granular settings
+- [ ] Add client-side EXIF metadata removal before storage
+- [ ] Create photo preview with privacy-focused editing tools (blur, anonymize)
+- [ ] Implement gallery-view web component with accessibility support
+- [ ] Add location-linking functionality with privacy preservation options
+- [ ] Include comprehensive permission handling and fallbacks
 
-### 🔄 Milestone 5: Automatic Photo Upload
-- [ ] Create upload-queue web component to manage background uploads
-- [ ] Implement compression algorithm for efficient data transfer
-- [ ] Build privacy-preserving blur filters based on user settings
-- [ ] Develop metadata removal process for all uploaded images
-- [ ] Add upload progress indicators with accessibility support
-- [ ] Implement retry mechanisms for failed uploads
-- [ ] Create Netlify function for secure photo storage
-
-### 🔗 Milestone 6: Control URLs & Management
-- [ ] Design secure hash generation for anonymous control URLs
-- [ ] Create control-panel web component for photo management
+### 🔐 Milestone 5: Anonymous Photo Management
+- [ ] Write failing tests for photo management functionality
+- [ ] Create upload-queue web component with background processing
+- [ ] Implement client-side image compression and optimization
+- [ ] Design privacy-preserving blur filters with configurable strength
+- [ ] Create metadata-sanitizer utility for removing all identifying information
+- [ ] Add accessibility-compliant progress indicators for operations
+- [ ] Implement retry mechanisms with exponential backoff
+- [ ] Create Netlify function for secure serverless storage
+- [ ] Add secure hash generation for anonymous control URLs
 - [ ] Implement local encrypted storage for control URLs
-- [ ] Build photo deletion functionality via control URLs
-- [ ] Add expiration options for shared photos
-- [ ] Create QR code generator for easy sharing of control URLs
+- [ ] Create QR code generator for easy sharing with proper accessibility
 
-### 🔍 Milestone 7: Browsing Anonymous Photos
-- [ ] Create map-marker web component for photo display
-- [ ] Implement clustering for dense photo areas
-- [ ] Build photo detail view with privacy-preserving zoom
-- [ ] Add distance-based and time-based filtering options
+### 📊 Milestone 6: Photo Discovery & Browsing
+- [ ] Write failing tests for browsing functionality and map integration
+- [ ] Create map-marker web component with clustering support
+- [ ] Implement photo detail view with privacy controls and WCAG compliance
+- [ ] Add filtering options (distance, time, popularity) accessible via keyboard
 - [ ] Create photo information panel with non-identifying metadata
+- [ ] Implement lazy loading for better performance
+- [ ] Add keyboard navigation for browsing photos and markers
+- [ ] Create screen-reader optimized exploration mode
 
-### 👮 Milestone 8: Crowd Moderation & AI Moderation
+### 🔍 Milestone 7: Community Engagement & Moderation
+- [ ] Write failing tests for moderation functionality
 - [ ] Create moderation-panel web component for user interactions
-- [ ] Implement like/not interested functionality with visual indicators
-- [ ] Build Netlify function for AI moderation integration
-- [ ] Create moderation queue for flagged content
-- [ ] Implement automatic removal threshold for negative feedback
+- [ ] Implement anonymous feedback system (like/not interested)
+- [ ] Build serverless function for AI-based content moderation
+- [ ] Create reporting functionality with clear accessibility support
+- [ ] Implement community guidelines with simple language
+- [ ] Add automatic content review thresholds
+- [ ] Create moderation queue and review system
 
-### 🔐 Milestone 9: Robust Security & Privacy Measures
-- [ ] Conduct thorough security audit of all data flows
+### 🛡️ Milestone 8: Enhanced Security & Privacy
+- [ ] Write failing tests for security features and privacy protections
+- [ ] Conduct comprehensive security audit of all data flows
 - [ ] Implement additional client-side privacy protections
-- [ ] Create regular data cleanup processes for stale content
-- [ ] Build abuse prevention mechanisms
-- [ ] Implement rate limiting for API endpoints
+- [ ] Create data retention and cleanup processes
+- [ ] Build rate-limiting for API endpoints
+- [ ] Add abuse prevention mechanisms
+- [ ] Implement privacy-focused analytics with no personal data
+- [ ] Create transparency reports on data handling
 
-### ⚡ Milestone 10: Scalability & Optimization
-- [ ] Optimize asset loading with responsive images and lazy loading
-- [ ] Implement database sharding for geographical data
-- [ ] Create edge-optimized delivery for photo content
-- [ ] Add performance monitoring and real-time analytics
-- [ ] Optimize JavaScript bundle size and execution
+### ⚡ Milestone 9: Performance & Scalability
+- [ ] Write failing tests for performance benchmarks
+- [ ] Implement responsive image loading strategies
+- [ ] Optimize JavaScript execution with proper patterns
+- [ ] Create geographical data sharding in backend
+- [ ] Implement edge-optimized content delivery
+- [ ] Add performance monitoring with privacy preservation
+- [ ] Optimize storage and retrieval patterns
+- [ ] Create load balancing for high-traffic scenarios
+
+### 🌐 Milestone 10: Global Expansion & Localization
+- [ ] Write failing tests for internationalization features
+- [ ] Implement i18n support in all web components
+- [ ] Add right-to-left language support
+- [ ] Create localization pipeline for community translations
+- [ ] Add cultural sensitivity reviews for global features
+- [ ] Implement region-specific privacy compliance
+- [ ] Create documentation for international contributors
+- [ ] Add language-specific discovery features
 
 ## 📈 Success Metrics
 
-- **User Privacy**: Zero personal data leaks
-- **Photo Sharing**: 95% upload success rate
-- **Performance**: <3s initial load time, <1s interaction response
-- **Accessibility**: WCAG AA compliance throughout
-- **Moderation**: <5% inappropriate content visible to users
+- **User Privacy**: Zero personal data leaks, verified by independent audits
+- **Accessibility**: 100% WCAG AA compliance, verified by automated and manual testing
+- **Photo Sharing**: 95% upload success rate, with graceful failure handling
+- **Performance**: <3s initial load time, <1s interaction response on standard connections
+- **Moderation**: <5% inappropriate content with <1hr resolution time
+- **Offline Usage**: 100% core functionality available without network connection
 
 See [README.md](README.md) for project overview and [ARCHITECTURE.md](ARCHITECTURE.md) for technical implementation details.
