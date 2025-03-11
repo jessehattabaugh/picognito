@@ -1,0 +1,14 @@
+{
+	"github.copilot.chat.commitMessageGeneration.instructions": [
+		{
+			"file": "CHANGELOG.md",
+			"if these changes add or remove functionality ensure that they have been mentioned in the CHANGELOG.md file": "changed functionality"
+		}
+	],
+	"github.copilot.chat.commitMessageGeneration.enabled": true,
+	"editor.defaultFormatter": "esbenp.prettier-vscode",
+	"editor.formatOnSave": true,
+	"editor.codeActionsOnSave": {
+		"source.fixAll.eslint": "always"
+	}
+}
