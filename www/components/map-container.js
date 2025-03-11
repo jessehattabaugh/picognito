@@ -15,6 +15,8 @@ export class MapContainer extends HTMLElement {
 		this.attachShadow({ mode: 'open' });
 		/** @type {import('leaflet').Map | null} */
 		this.map = null;
+		/** @type {string} */
+		this.unsplashAccessKey = 'YZe8A8SCx771CAke3uG0LeVeIOUhje9KRMplj_STyLw'; // Demo access key
 	}
 
 	/**
@@ -51,8 +53,8 @@ export class MapContainer extends HTMLElement {
 
 			// Create attribution container
 			const attributionDiv = document.createElement('div');
-			attributionDiv.className = 'photo-attribution';
-			attributionDiv.textContent = 'Photos provided by Unsplash';
+			attributionDiv.className = 'unsplash-attribution';
+			attributionDiv.innerHTML = 'Photos provided by <a href="https://unsplash.com" target="_blank" rel="noopener noreferrer">Unsplash API</a>';
 			mapElement.appendChild(attributionDiv);
 
 			// Create map instance with accessibility options
@@ -86,62 +88,124 @@ export class MapContainer extends HTMLElement {
 	}
 
 	/**
-	 * Load photos and add them to the map
+	 * Load photos from Unsplash API and add them to the map
 	 * @returns {Promise<void>}
 	 */
 	async loadPhotos() {
 		if (!this.map) return;
 
-		const mockPhotos = [
-			{
-				user: { name: 'John Doe' },
-				urls: { thumb: 'https://example.com/photo1.jpg' },
-				alt_description: 'A beautiful landscape',
-				links: { html: 'https://unsplash.com/photos/sample1' },
-				location: { position: { latitude: 51.505, longitude: -0.09 } },
-			},
-			{
-				user: { name: 'Jane Smith' },
-				urls: { thumb: 'https://example.com/photo2.jpg' },
-				alt_description: 'City skyline',
-				links: { html: 'https://unsplash.com/photos/sample2' },
-				location: { position: { latitude: 51.51, longitude: -0.1 } },
-			},
-			{
-				user: { name: 'Alex Johnson' },
-				urls: { thumb: 'https://example.com/photo3.jpg' },
-				alt_description: 'Mountain view',
-				links: { html: 'https://unsplash.com/photos/sample3' },
-				location: { position: { latitude: 51.515, longitude: -0.11 } },
-			},
-		];
+		try {
+			let photos;
 
-		mockPhotos.forEach((photo) => {
-			const marker = L.marker(
-				[photo.location.position.latitude, photo.location.position.longitude],
-				{
+			// Try to fetch from Unsplash API
+			try {
+				const response = await fetch(
+					`https://api.unsplash.com/photos/random?count=5&featured=true&query=landscape&orientation=landscape`,
+					{
+						headers: {
+							Authorization: `Client-ID ${this.unsplashAccessKey}`,
+						},
+					},
+				);
+
+				if (response.ok) {
+					photos = await response.json();
+					console.info('🗺️ 🌐 Successfully fetched photos from Unsplash API');
+				} else {
+					throw new Error(`API returned ${response.status}: ${response.statusText}`);
+				}
+			} catch (apiError) {
+				console.warn(
+					'🗺️ ⚠️ Could not fetch from Unsplash API, using fallback data:',
+					apiError,
+				);
+				// Fallback to mock data if API call fails
+				photos = [
+					{
+						id: 'photo1',
+						user: { name: 'John Doe', username: 'johndoe' },
+						urls: {
+							thumb: 'https://example.com/photo1.jpg',
+							small: 'https://example.com/photo1.jpg',
+						},
+						alt_description: 'A beautiful landscape',
+						description: 'Mountain landscape with trees',
+						links: { html: 'https://unsplash.com/photos/sample1' },
+						location: { position: { latitude: 51.505, longitude: -0.09 } },
+					},
+					{
+						id: 'photo2',
+						user: { name: 'Jane Smith', username: 'janesmith' },
+						urls: {
+							thumb: 'https://example.com/photo2.jpg',
+							small: 'https://example.com/photo2.jpg',
+						},
+						alt_description: 'City skyline',
+						description: 'Urban view of downtown',
+						links: { html: 'https://unsplash.com/photos/sample2' },
+						location: { position: { latitude: 51.51, longitude: -0.1 } },
+					},
+					{
+						id: 'photo3',
+						user: { name: 'Alex Johnson', username: 'alexj' },
+						urls: {
+							thumb: 'https://example.com/photo3.jpg',
+							small: 'https://example.com/photo3.jpg',
+						},
+						alt_description: 'Mountain view',
+						description: 'Snow-capped peaks',
+						links: { html: 'https://unsplash.com/photos/sample3' },
+						location: { position: { latitude: 51.515, longitude: -0.11 } },
+					},
+				];
+			}
+
+			// Add each photo to the map
+			photos.forEach((photo, index) => {
+				// Extract location information
+				const photoLat =
+					photo.location?.position?.latitude || 51.505 + Math.random() * 0.02;
+				const photoLng =
+					photo.location?.position?.longitude || -0.09 + Math.random() * 0.02;
+
+				const photoId = `photo-${photo.id || index}`;
+				const marker = L.marker([photoLat, photoLng], {
 					icon: L.divIcon({
 						className: 'photo-marker',
 						html: '<div class="marker-pin"></div>',
 					}),
-				},
-			);
+				});
 
-			marker.bindPopup(`
-				<div class="photo-popup">
-					<strong class="photo-credit">Photo by ${photo.user.name}</strong><br/>
-					<img src="${photo.urls.thumb}" alt="${photo.alt_description || 'Photo'}" style="width:100px;"/><br/>
-					<a href="${
-						photo.links.html
-					}" target="_blank" rel="noopener noreferrer" class="attribution-link">View on Unsplash</a>
-				</div>
-			`);
+				const popupContent = document.createElement('div');
+				popupContent.className = 'photo-popup';
+				popupContent.setAttribute('role', 'dialog');
+				popupContent.setAttribute('aria-labelledby', `photo-title-${photoId}`);
 
-			// Only add marker if map exists
-			if (this.map) {
-				marker.addTo(this.map);
-			}
-		});
+				const titleId = `photo-title-${photoId}`;
+				popupContent.innerHTML = `
+					<strong id="${titleId}" class="photographer-name">Photo by ${photo.user.name}</strong>
+					<img class="photo-thumbnail" src="${photo.urls.thumb}" alt="${
+					photo.alt_description || 'Photo'
+				}" style="width:100px;"/>
+					<div class="photo-location">📍 ${photo.description || 'Location photo'}</div>
+					<a href="${photo.links.html}?utm_source=picognito&utm_medium=referral"
+						target="_blank" rel="noopener noreferrer"
+						class="attribution-link">View on Unsplash</a>
+					<button class="close-popup" aria-label="Close photo information">Close</button>
+				`;
+
+				marker.bindPopup(popupContent);
+
+				// Only add marker if map exists
+				if (this.map) {
+					marker.addTo(this.map);
+				}
+			});
+
+			console.info('🗺️ 📷 Photos loaded on map');
+		} catch (error) {
+			console.error('🗺️ ❌ Failed to load photos:', error);
+		}
 	}
 
 	/**
@@ -226,6 +290,16 @@ export class MapContainer extends HTMLElement {
 					font-size: 12px;
 					z-index: 1000;
 				}
+				.unsplash-attribution {
+					position: absolute;
+					bottom: 30px;
+					right: 10px;
+					background: rgba(255, 255, 255, 0.9);
+					padding: 5px 10px;
+					border-radius: 4px;
+					font-size: 12px;
+					z-index: 1000;
+				}
 				.photo-marker {
 					width: 25px !important;
 					height: 25px !important;
@@ -238,10 +312,20 @@ export class MapContainer extends HTMLElement {
 					text-align: center;
 					padding: 10px;
 				}
-				.photo-credit {
+				.photographer-name {
 					display: block;
 					margin-bottom: 5px;
 					font-weight: bold;
+				}
+				.photo-thumbnail {
+					display: block;
+					max-width: 100%;
+					margin: 8px auto;
+					border-radius: 4px;
+				}
+				.photo-location {
+					margin: 8px 0;
+					font-size: 14px;
 				}
 				.attribution-link {
 					display: inline-block;
@@ -251,6 +335,14 @@ export class MapContainer extends HTMLElement {
 				}
 				.attribution-link:hover {
 					text-decoration: underline;
+				}
+				.close-popup {
+					margin-top: 8px;
+					padding: 4px 8px;
+					border: none;
+					background: #f0f0f0;
+					border-radius: 4px;
+					cursor: pointer;
 				}
 				/* Leaflet Styles */
 				.leaflet-pane,

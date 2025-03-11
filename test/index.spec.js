@@ -294,3 +294,106 @@ test.describe('Photo Display and Attribution', () => {
 		console.log('🏠 ♿ Photo accessibility features verified');
 	});
 });
+
+/**
+ * Test suite for map photos functionality
+ * 🗺️ Tests for photos from Unsplash API on the map with proper attribution
+ */
+test.describe('Map Photos from Unsplash', () => {
+	test.beforeEach(async ({ page }) => {
+		// Start with a fresh page for each test
+		await page.goto('/');
+
+		// Make sure map is fully loaded and visible
+		await page.waitForSelector('map-container', { state: 'visible' });
+		await page.waitForSelector('.leaflet-container', { state: 'visible' });
+
+		// Wait for map to be fully initialized
+		await page.waitForTimeout(1000); // Allow time for any async operations to complete
+	});
+
+	test('should display photos from Unsplash on the map 🗺️📸', async ({ page }) => {
+		// Find photo markers on the map
+		const photoMarkers = page.locator('.photo-marker');
+
+		// Verify there are multiple photo markers visible on the map
+		await expect(photoMarkers).toBeVisible();
+		await expect(photoMarkers).toHaveCount({ min: 3 }); // Expecting at least 3 photos
+
+		console.log('🗺️ 📸 Verified photo markers are displayed on the map');
+	});
+
+	test('should show Unsplash attribution on the map 🗺️📝', async ({ page }) => {
+		// Check for Unsplash attribution in the map container
+		const unsplashAttribution = page.locator('.unsplash-attribution');
+
+		// Verify attribution is visible and contains Unsplash reference
+		await expect(unsplashAttribution).toBeVisible();
+		await expect(unsplashAttribution).toContainText('Unsplash');
+		await expect(unsplashAttribution).toContainText('API');
+
+		// Check if attribution has proper link to Unsplash
+		const attributionLink = unsplashAttribution.locator('a[href*="unsplash.com"]');
+		await expect(attributionLink).toBeVisible();
+		await expect(attributionLink).toHaveAttribute('rel', 'noopener noreferrer');
+
+		console.log('🗺️ 📝 Verified Unsplash attribution is properly displayed');
+	});
+
+	test('should display photo details with photographer credit when clicked 🗺️👤', async ({ page }) => {
+		// Click on the first photo marker
+		const firstPhotoMarker = page.locator('.photo-marker').first();
+		await firstPhotoMarker.click();
+
+		// Check that a popup appears with photo details
+		const photoPopup = page.locator('.photo-popup');
+		await expect(photoPopup).toBeVisible();
+
+		// Verify popup contains required elements
+		await expect(photoPopup.locator('img.photo-thumbnail')).toBeVisible();
+		await expect(photoPopup.locator('.photographer-name')).toBeVisible();
+
+		// Check for proper attribution link to photographer's Unsplash profile
+		const photographerLink = photoPopup.locator('a[href*="unsplash.com"]');
+		await expect(photographerLink).toBeVisible();
+		await expect(photographerLink).toHaveAttribute('target', '_blank');
+
+		console.log('🗺️ 👤 Verified photo details popup with photographer credit');
+	});
+
+	test('should have accessible photo information for screen readers 🗺️♿', async ({ page }) => {
+		// Click on a photo marker
+		const photoMarker = page.locator('.photo-marker').nth(1);
+		await photoMarker.click();
+
+		// Verify popup has proper accessibility attributes
+		const photoPopup = page.locator('.photo-popup');
+		await expect(photoPopup).toHaveAttribute('role', 'dialog');
+		await expect(photoPopup).toHaveAttribute('aria-labelledby', /photo-title-*/);
+
+		// Check image has proper alt text
+		const photoImage = photoPopup.locator('img.photo-thumbnail');
+		await expect(photoImage).toHaveAttribute('alt');
+
+		// Ensure photo location information is accessible
+		const locationInfo = photoPopup.locator('.photo-location');
+		await expect(locationInfo).toBeVisible();
+
+		// Verify close button is keyboard accessible
+		const closeButton = photoPopup.locator('button.close-popup');
+		await expect(closeButton).toBeVisible();
+		await expect(closeButton).toHaveAttribute('aria-label');
+
+		console.log('🗺️ ♿ Verified photo information is accessible for screen readers');
+	});
+
+	test('should take a screenshot of map with photo markers 🗺️📸', async ({ page }) => {
+		// Ensure map is fully loaded with photo markers
+		await page.waitForSelector('.photo-marker', { state: 'visible' });
+
+		// Take a screenshot of the map with photo markers
+		await expect(page).toHaveScreenshot('map-with-photo-markers.png');
+
+		console.log('🗺️ 📸 Screenshot taken of map with photo markers');
+	});
+});

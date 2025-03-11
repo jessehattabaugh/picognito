@@ -41,7 +41,7 @@ This project follows a structured, incremental approach based on Test-Driven Dev
 - [x] Initialize responsive Leaflet map fullscreen with accessible controls
 - [x] Add keyboard navigation support for map interactions
 - [x] Implement screen reader compatibility for map features
-- [ ] Create photo display page with Unsplash API integration and proper attribution
+- [ ] Add photos to the map from the Unsplash API integration with proper attribution
 
 ### 🗺️ Milestone 2: User Location Integration
 - [x] Write failing tests for geolocation functionality and permission scenarios
