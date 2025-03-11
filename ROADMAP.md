@@ -35,8 +35,8 @@ This project follows a structured, incremental approach based on Test-Driven Dev
 ## 📍 Detailed Milestone Plan
 
 ### ✅ Milestone 1: Basic Map Setup
-- [ ] Write failing E2E tests for map rendering and basic interactions
-- [ ] Create map-container web component following WCAG AA accessibility standards
+- [x] Write failing E2E tests for map rendering and basic interactions
+- [x] Create map-container web component following WCAG AA accessibility standards <!-- Implemented and mentioned in CHANGELOG.md -->
 - [ ] Install and integrate Leaflet library via direct ES module imports (no bundlers)
 - [ ] Initialize responsive Leaflet map fullscreen with accessible controls
 - [ ] Add keyboard navigation support for map interactions

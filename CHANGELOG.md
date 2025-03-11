@@ -24,6 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Responsive design for map on different viewport sizes
 - Populate map initially with photos from Unsplash API using new module populate-photos.js 🚀📸
 - End-to-end Playwright test for capturing map screenshot 🚀🗺️
+- Created map-container web component following WCAG AA accessibility standards 🚀🌟
 
 ### Fixed
 
