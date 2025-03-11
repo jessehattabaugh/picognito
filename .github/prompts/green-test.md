@@ -4,9 +4,17 @@ You're in **"Green"** mode: your only goal is to write the simplest possible cod
 
 ### Instructions:
 
-- Reference: Test files (`*.test.*`) created in the previous step.
-- **DO NOT** write more code than required by the test.
-- Prioritize clarity and minimalism over completeness.
-- Ensure all existing tests remain passing—never break an existing test.
-- After this step, all tests must pass successfully.
-- Update no documentation or other non-implementation files.
+-   Reference: Test files (`*.test.*`) created in the previous step.
+-   **DO NOT** write more code than required by the test.
+-   Prioritize clarity and minimalism over completeness.
+-   Ensure all existing tests remain passing—never break an existing test.
+-   After this step, all tests must pass successfully.
+-   Update no documentation or other non-implementation files.
+
+### References
+
+-   [#file:README.md](../../README.md)
+-   [#file:ROADMAP.md](../../ROADMAP.md)
+-   [#file:STYLE_GUIDE.md](../../STYLE_GUIDE.md)
+-   [#file:TESTING.md](../../TESTING.md)
+-   [#file:CHANGELOG.md](../../CHANGELOG.md)

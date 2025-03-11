@@ -136,74 +136,74 @@ test.describe('Contact Page', () => {
 test.describe('Contact Form 📨', () => {
 	test('shows error for empty fields 🚫', async ({ page }) => {
 		await page.goto('/contact.html');
-		
+
 		// Try to submit empty form
 		await page.getByRole('button', { name: /Send Message/i }).click();
-		
+
 		// Check for error messages
 		const nameError = page.locator('#name-error');
 		const emailError = page.locator('#email-error');
 		const messageError = page.locator('#message-error');
-		
+
 		await expect(nameError).toHaveText(/required/i);
 		await expect(emailError).toHaveText(/required/i);
 		await expect(messageError).toHaveText(/required/i);
-		
+
 		console.log('🚫 Form validation shows errors for empty fields');
 	});
-	
+
 	test('validates email format 📧', async ({ page }) => {
 		await page.goto('/contact.html');
-		
+
 		// Enter invalid email
 		await page.locator('#name').fill('Test User');
 		await page.locator('#email').fill('invalid-email');
 		await page.locator('#message').fill('Test message');
-		
+
 		// Trigger validation
 		await page.locator('#email').blur();
-		
+
 		// Check for error message
 		const emailError = page.locator('#email-error');
 		await expect(emailError).toHaveText(/valid email/i);
-		
+
 		// Fix the email and check if error disappears
 		await page.locator('#email').fill('valid@example.com');
 		await page.locator('#email').blur();
-		
+
 		// Error should be gone
 		await expect(emailError).toBeEmpty();
-		
+
 		console.log('📧 Email format validation works correctly');
 	});
-	
+
 	test('navigation works correctly ⌨️', async ({ page }) => {
 		await page.goto('/contact.html');
-		
+
 		// Use keyboard to navigate the form
 		await page.keyboard.press('Tab'); // Focus skip link
 		await page.keyboard.press('Tab'); // Focus first nav link
 		await page.keyboard.press('Tab'); // Focus second nav link
 		await page.keyboard.press('Tab'); // Focus third nav link
 		await page.keyboard.press('Tab'); // Focus name input
-		
+
 		// Check if name input has focus
 		const isFocusedOnName = await page.evaluate(() => {
 			return document.activeElement.id === 'name';
 		});
-		
+
 		expect(isFocusedOnName).toBeTruthy();
-		
+
 		// Tab to email input
 		await page.keyboard.press('Tab');
-		
+
 		// Check if email input has focus
 		const isFocusedOnEmail = await page.evaluate(() => {
 			return document.activeElement.id === 'email';
 		});
-		
+
 		expect(isFocusedOnEmail).toBeTruthy();
-		
+
 		console.log('⌨️ Keyboard navigation works correctly on contact form');
 	});
 });

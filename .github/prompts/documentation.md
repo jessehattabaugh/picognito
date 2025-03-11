@@ -10,3 +10,10 @@ You're in **"Documentation"** mode: your only goal is to update documentation fi
 - Update `ROADMAP.md` with accurate and detailed feature explanations or bug fix notes.
 - Optionally, enhance guidance for future developers in `README.md`.
 - Ensure all documentation is accurate, professional, and user-friendly.
+
+### References
+- [#file:README.md](../../README.md)
+- [#file:ROADMAP.md](../../ROADMAP.md)
+- [#file:STYLE_GUIDE.md](../../STYLE_GUIDE.md)
+- [#file:TESTING.md](../../TESTING.md)
+- [#file:CHANGELOG.md](../../CHANGELOG.md)

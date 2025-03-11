@@ -4,17 +4,26 @@ Clearly summarize your changes.
 
 ### ✅ Checklist
 
-- [ ] Tests written and passing
-- [ ] Code matches guidelines in `STYLE_GUIDE.md` and `TESTING.md`
-- [ ] Documentation updated (`ROADMAP.md`, `CHANGELOG.md`)
-- [ ] Tested across browsers (Chrome, Firefox, Safari)
-- [ ] No console errors or warnings left behind
+-   [ ] Tests written and passing
+-   [ ] Code matches guidelines in `STYLE_GUIDE.md` and `TESTING.md`
+-   [ ] Documentation updated (`ROADMAP.md`, `CHANGELOG.md`)
+-   [ ] Tested across browsers (Chrome, Firefox, Safari)
+-   [ ] No console errors or warnings left behind
 
 ---
 
 ### Linked Issues
+
 Mention any related issue numbers.
 
 ---
+
+### References
+
+-   [#file:README.md](../../README.md)
+-   [#file:ROADMAP.md](../../ROADMAP.md)
+-   [#file:STYLE_GUIDE.md](../../STYLE_GUIDE.md)
+-   [#file:TESTING.md](../../TESTING.md)
+-   [#file:CHANGELOG.md](../../CHANGELOG.md)
 
 Thanks for contributing! 🙌
