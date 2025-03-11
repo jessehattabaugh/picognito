@@ -326,3 +326,40 @@ test.describe('Map Component Geolocation 🗺️📍', () => {
 		expect(imageElements.length).toBeGreaterThan(0);
 	});
 });
+
+import { test, expect } from '@playwright/test';
+
+/**
+ * @typedef {import('@playwright/test').Page} Page
+ */
+
+test.describe('Map functionality', () => {
+	/**
+	 * Test that the map container is rendered and Leaflet has initialized.
+	 * Uses a shared emoji 🚀 and a unique emoji 🗺️ in any console logs.
+	 */
+	test('should render map container and initialize Leaflet map', async ({ page }) => {
+		// 🚀🗺️ Navigate to the home page
+		await page.goto('/');
+		// 🚀🗺️ Check that the map container exists (assumes id "map")
+		const mapContainer = await page.$('#map');
+		expect(mapContainer).not.toBeNull();
+		// 🚀🗺️ Verify that a Leaflet-specific element is visible within the map container
+		await expect(page.locator('#map .leaflet-pane')).toBeVisible();
+	});
+
+	/**
+	 * Test that keyboard navigation is enabled on the map.
+	 */
+	test('should support keyboard navigation for map interactions', async ({ page }) => {
+		// 🚀🗺️ Navigate to the home page
+		await page.goto('/');
+		const mapContainer = page.locator('#map');
+		// 🚀🗺️ Focus the map container
+		await mapContainer.focus();
+		// 🚀🗺️ Simulate a keyboard interaction (e.g. arrow up)
+		await page.keyboard.press('ArrowUp');
+		// 🚀🗺️ Expect the map container to gain a "focused" class as a sign of keyboard interaction
+		await expect(mapContainer).toHaveClass(/focused/);
+	});
+});
