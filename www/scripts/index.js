@@ -58,8 +58,10 @@ function setupEventListeners() {
 	if (carousel) {
 		carousel.addEventListener(
 			'slide-change',
-			/** @param {SlideChangeEvent} e */ (e) => {
-				const { index, total } = e.detail;
+			/** @param {Event} e */ (e) => {
+				console.log('🚀🛠️ slide-change event triggered');
+				let event = /** @type {CustomEvent<{ index: number, total: number }>} */ (e);
+				const { index, total } = event.detail;
 				console.log('🎠 📊', `Slide changed to ${index} of ${total}`);
 			},
 		);
