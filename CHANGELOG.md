@@ -14,6 +14,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Documentation for Milestone 1 implementation in IMPLEMENTATION.md
 - Enhanced development roadmap with detailed steps for all milestones
 - Web component structure for map container
+- Map visibility and initialization improvements
+- Map component readiness state indicators
+- Map section styling for consistent layout
+- Leaflet map integration with ES modules
+- Accessible map controls with keyboard navigation support
+- Map loading indicators and error handling
+- End-to-end tests for map functionality
+- Responsive design for map on different viewport sizes
 
 ### In Progress
 
@@ -21,6 +29,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - End-to-end tests for contact form functionality
 - Form validation and error handling
 - Success/error message display for form submissions
+- Map markers for displaying photo locations
+
+### Fixed
+
+- Map component visibility in tests
+- Map initialization detection
+- Keyboard navigation focus management
 
 ## [1.1.0] - 2024-01-17
 
