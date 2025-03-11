@@ -1,298 +1,132 @@
-# Web Boilerplate
-
-A modern web boilerplate with cutting-edge features
-
-## Features
-
-This boilerplate includes modern web features:
-
--   🎨 Modern CSS with variables, reset, and utility classes
--   🚀 View Transitions API for smooth page transitions
--   🔄 Service Worker with workbox for offline support
--   🌓 Dark/light theme support with auto detection
--   🤖 Simple bot protection for forms
--   📱 Fully responsive with container queries
--   🔒 Enhanced security headers
--   ♿ Accessibility features including prefers-reduced-motion support
--   🔍 SEO optimized
--   🧪 End-to-end testing with Playwright
-
-## Project Documentation
-
-This project includes additional documentation in specific directories:
-
--   **[Test Snapshots Documentation](/snapshots/README.md)** - Information about visual regression testing
--   **[Component Documentation](./www/components/README.md)** - Documentation for web components
--   **[Coding Guidelines](./.github/copiliot-instructions.md)** - Coding standards and best practices for this project
-
-## Getting Started
-
-1. Install dependencies by running `npm install`
-2. Configure your site: `npm run configure` (or manually edit the `public/config.js` file)
-3. Start the development server with `npm start`
-
-### Development Scripts
-
--   `npm start` - Start the development server
--   `npm run start:https` - Start with HTTPS for testing secure features
--   `npm run build` - Build for production (optimizes CSS)
--   `npm run lint` - Run ESLint for code quality checks
--   `npm run test` - Run Playwright end-to-end tests
--   `npm run test:ui` - Run Playwright tests with UI for debugging
--   `npm run test:update-snapshots` - Update visual test baselines
--   `npm run analyze` - Analyze the site with Lighthouse
-
-## Web Components
-
-The boilerplate includes a sample web component that demonstrates how to create, test, and document components in this project.
-
-### Example Component: Theme Toggle
-
-The Theme Toggle component demonstrates how to create a fully tested web component using this boilerplate:
-
-```html
-<theme-toggle></theme-toggle>
-```
-
-This component provides a toggle for dark/light mode and demonstrates:
-
--   Encapsulation with Shadow DOM
--   Component styling
--   Event handling
--   Accessibility features
--   Visual regression testing
-
-For detailed documentation on this component and instructions for creating your own web components, see the [Web Components Documentation](./www/components/README.md).
-
-## Accessibility Features
-
-This boilerplate includes several accessibility enhancements:
-
-### Reduced Motion Support
-
-The site respects the user's motion preferences:
-
--   Uses the `prefers-reduced-motion` media query to disable animations and transitions
--   Provides alternative experiences for users who prefer reduced motion
--   Disables View Transitions for users with motion sensitivity
--   JavaScript animation logic is motion-preference aware
-
-```css
-/* Example of how animations respect user preferences */
-@media (prefers-reduced-motion: no-preference) {
-	.animate-element {
-```css
-/* Example of how animations respect user preferences */
-@media (prefers-reduced-motion: no-preference) {
-	.animate-element {
-		transition: transform 0.3s ease;
-	}
-}
-```
-
-## Testing
-
-### Testing Philosophy
-
-This boilerplate embraces a practical testing philosophy:
-
-1. **Production is the ultimate test** - Real users on real devices are the true validation
-2. **Automated browser testing** against staging environments is the next best thing
-3. **Local browser testing** during development provides immediate feedback
-
-We deliberately avoid "mock-heavy" unit or integration tests that test abstractions rather than real user experiences.
-
-### End-to-End Testing with Playwright
-
-The boilerplate uses Playwright for comprehensive end-to-end testing which:
-
--   Tests your application in **real browsers** (Chromium, Firefox, WebKit)
--   Verifies behavior across **different devices and viewports**
--   Ensures **accessibility standards** are met
--   Provides **visual regression testing** to catch unexpected UI changes
--   Monitors **performance metrics** against established baselines
-
-#### Included Test Types
-
--   **Functional tests**: Verify features work as expected
--   **Visual regression tests**: Catch unintended visual changes
--   **Accessibility tests**: Ensure the site works for all users
--   **Mobile responsiveness**: Test behavior on different devices
--   **Performance tests**: Monitor core web vitals and prevent regressions
-
-#### Running Tests
-
-```bash
-# Quick test during development
-npm run test
-
-# Test against staging environment (closest to production)
-npm run test:staging
-
-# Update visual snapshots after intentional changes
-npm run test:update-snapshots
-
-# Update performance baselines after optimizations
-npm run test:update-performance
-
-# Debug tests interactively with UI
-npm run test:ui
-
-# Run just the theme toggle visual tests
-npm run test:theme
-```
-
-#### Visual Regression Testing
-
-The boilerplate includes visual regression tests that verify UI components maintain their expected appearance:
-
--   **Theme Toggle**: Tests verify the toggle functions correctly in all states
--   **Dark/Light Mode**: Screenshots are compared across theme changes to ensure proper styling
--   **Responsive Design**: Visual tests run across multiple viewport sizes
-
-When making design changes, update the visual reference snapshots:
-
-```bash
-# Update visual snapshots after intentional UI changes
-npm run test:update-snapshots
-```
-
-### Performance Testing
-
-This boilerplate includes a comprehensive performance testing system:
-
-#### How it works
-
-1. **Performance baselines**: Each component and page has baseline metrics saved in the `/performance` directory
-2. **Automated testing**: Tests run on each build and compare current performance against baselines
-3. **Threshold alerts**: Tests fail if performance degrades beyond configurable thresholds
-4. **Lighthouse integration**: For index pages, full Lighthouse audits are run and results tracked
-
-#### Performance metrics tracked
-
--   **Core Web Vitals**: First Contentful Paint (FCP), Largest Contentful Paint (LCP), Cumulative Layout Shift (CLS)
--   **Interaction metrics**: Total Blocking Time (TBT), Time to Interactive (TTI)
--   **Navigation metrics**: Time to First Byte (TTFB), DOM Load, Full Page Load
--   **Component-level metrics**: Toggle operation time, memory usage, etc.
-
-#### Managing performance baselines
-
-After intentional performance changes or optimizations, update the baselines:
-
-```bash
-# Update performance baselines
-npm run test:update-performance
-```
-
-This will run all tests with the baseline update flag and save current metrics as the new baseline.
-
-#### Performance test file organization
-
--   Performance tests are integrated into component-specific test files
--   Each test file measures specific metrics relevant to that component
--   The utils/performance-utils.js module provides shared testing utilities
--   Baseline metrics are stored in the /performance directory as JSON files
-
-### Writing Effective Tests
-
-When adding new features, write Playwright tests that:
-
-1. Focus on **user journeys** rather than implementation details
-2. Use **accessibility-friendly selectors** like `getByRole` and `getByLabel`
-3. Test across **multiple browsers and devices**
-4. Include **visual regression** and **performance** tests
-5. Verify **accessibility** requirements are met
-
-Example of a good test case:
-
-```javascript
-test('user can toggle theme', async ({ page }) => {
-	await page.goto('/');
-
-	// Find element by its accessible role
-	const themeToggle = page.getByRole('switch', { name: /toggle theme/i });
-
-	// Verify initial state
-	await expect(themeToggle).toBeVisible();
-	const initialTheme = await page.evaluate(() =>
-		document.documentElement.classList.contains('dark-mode') ? 'dark' : 'light',
-	);
-
-	// Perform action
-	await themeToggle.click();
-
-	// Verify result
-	const newTheme = await page.evaluate(() =>
-		document.documentElement.classList.contains('dark-mode') ? 'dark' : 'light',
-	);
-	expect(newTheme).not.toBe(initialTheme);
-
-	// Check performance metrics for the operation
-	const metrics = await getBrowserPerformanceMetrics(page);
-	await assertPerformanceBaseline('theme-toggle-operation', metrics);
-});
-```
-
-See the `tests` directory for more examples.
-
-## Visual Testing
-
-This project uses Playwright's visual comparison testing to ensure UI consistency:
-
-### How snapshot testing works
-
-1. The first time tests run, baseline screenshots are captured
-2. On subsequent runs, new screenshots are compared against the baselines
-3. Tests fail if there are visual differences beyond the threshold
-
-### Managing snapshots
-
--   **Update snapshots:** After intentional UI changes, run `npm run test:update-snapshots`
--   **Clean temporary snapshots:** Remove diff and actual files with `npm run test:clean-snapshots`
--   **View differences:** Check the Playwright report for side-by-side comparison of visual changes
-
-### Snapshot organization
-
--   Baseline snapshots are stored in `/snapshots/` with the naming convention `*-baseline.png`
--   Only baseline snapshots are committed to git
--   The snapshot directory uses a flat structure for simplicity
-
-### Best practices
-
--   Keep snapshot regions focused on specific UI elements when possible
--   Use full page snapshots sparingly to reduce false positives
--   Consider device-specific variations in your tests
-
-## PWA Screenshots
-
-The boilerplate includes tools for generating PWA screenshots for the web app manifest:
-
-```bash
-# Generate screenshots from local development server
-npm run screenshots
-
-# Generate screenshots from production site
-npm run screenshots:prod
-```
-
-These screenshots are used in the `manifest.json` file and help create better installation experiences when users add your PWA to their home screen.
-
-The script automatically captures:
-
--   Desktop screenshot (1280x800)
--   Mobile screenshot (750x1334) with proper device scaling
-
-Screenshots are saved to `/public/screenshots/` and the manifest.json is automatically updated.
-
-## Coding Standards
-
-For detailed coding guidelines and best practices used in this project, please refer to the [Coding Guidelines](./.github/copiliot-instructions.md) document.
-
-## Customization
-
-Edit the variables in `public/styles/all.css` to customize the design system.
-Configure site details in `public/scripts/config.js`.
-
-## Browser Support
-
+# Picognito - Anonymously Share Your World
+
+**Picognito** is an anonymous, location-based photo-sharing Progressive Web App (PWA). It allows users to share and explore nearby visual moments safely without compromising their identity or privacy.
+
+## Core Philosophy
+
+- **Total Anonymity**: No accounts, no names, no identifiable information.
+- **Safe Sharing**: Automatic moderation using AI and community moderation to prevent personal or sensitive content.
+- **Local Discovery**: Explore local or global anonymous photos through intuitive filtering.
+
+## Tech Stack
+- HTML/CSS/JavaScript
+- Leaflet (Map)
+- Netlify Functions & Database
+- Playwright (Testing)
+- PWA (Offline Capability)
+
+## Development Milestones & Steps
+
+### ✅ Milestone 1: Basic Map Setup
+- [ ] Install and integrate Leaflet library (no package bundlers, direct ES module import)
+- [ ] Initialize Leaflet map fullscreen with accessible controls
+- [ ] Create map-container web component for encapsulated functionality
+- [ ] Add responsive design for different viewport sizes
+- [ ] Write E2E Playwright tests to verify map displays and functions correctly
+- [ ] [Optional] Populate map initially with photos from public APIs (e.g., Unsplash, OpenStreetMap)
+
+### 🗺️ Milestone 2: User Location Integration
+- [ ] Create geo-location web component to handle location services
+- [ ] Implement permission request UX with clear messaging about privacy
+- [ ] Add custom location marker for user's position on map
+- [ ] Build graceful fallback for geolocation permission denial
+- [ ] Implement location accuracy indicator
+- [ ] Add location refresh functionality with appropriate UI indicators
+- [ ] Write Playwright tests for geolocation scenarios (including permission denial)
+
+### 📱 Milestone 3: Offline PWA Functionality
+- [ ] Configure service worker for offline access with proper caching strategies
+- [ ] Implement manifest.json with appropriate PWA metadata
+- [ ] Create offline.html with clear messaging and functionality
+- [ ] Add install prompts with deferrable UI
+- [ ] Implement background sync for offline data
+- [ ] Create IndexedDB storage schema for offline photos
+- [ ] Add clear visual indicators for online/offline state
+- [ ] Test PWA functionality on multiple devices and browsers
+
+### 📸 Milestone 4: Photo Capture and Local Storage
+- [ ] Create camera-interface web component with accessibility features
+- [ ] Implement secure local storage for captured photos using IndexedDB
+- [ ] Add photo preview functionality with simple editing tools
+- [ ] Build privacy slider to control metadata and blurring level
+- [ ] Create gallery view for locally stored photos
+- [ ] Implement EXIF data stripping client-side
+- [ ] Add photo location linking with map markers
+- [ ] Build comprehensive E2E tests for photo capture workflow
+
+### 🔄 Milestone 5: Automatic Photo Upload
+- [ ] Create upload-queue web component to manage background uploads
+- [ ] Implement compression algorithm for efficient data transfer
+- [ ] Build privacy-preserving blur filters based on user settings
+- [ ] Develop metadata removal process for all uploaded images
+- [ ] Add upload progress indicators with accessibility support
+- [ ] Implement retry mechanisms for failed uploads
+- [ ] Create Netlify function for secure photo storage
+- [ ] Test upload functionality under various network conditions
+
+### 🔗 Milestone 6: Control URLs & Management
+- [ ] Design secure hash generation for anonymous control URLs
+- [ ] Create control-panel web component for photo management
+- [ ] Implement local encrypted storage for control URLs
+- [ ] Build photo deletion functionality via control URLs
+- [ ] Add expiration options for shared photos
+- [ ] Create QR code generator for easy sharing of control URLs
+- [ ] Test security measures with penetration testing scenarios
+
+### 🔍 Milestone 7: Browsing Anonymous Photos
+- [ ] Create map-marker web component for photo display
+- [ ] Implement clustering for dense photo areas
+- [ ] Build photo detail view with privacy-preserving zoom
+- [ ] Add distance-based and time-based filtering options
+- [ ] Implement smooth transitions between map and detail views
+- [ ] Create photo information panel with non-identifying metadata
+- [ ] Add keyboard navigation and screen reader support for browsing
+- [ ] Test browsing experience on various devices and connection speeds
+
+### 👮 Milestone 8: Crowd Moderation & AI Moderation
+- [ ] Create moderation-panel web component for user interactions
+- [ ] Implement like/not interested functionality with visual indicators
+- [ ] Build Netlify function for AI moderation integration
+- [ ] Create moderation queue for flagged content
+- [ ] Implement automatic removal threshold for negative feedback
+- [ ] Add clear feedback for users when content is moderated
+- [ ] Test moderation system with various content scenarios
+
+### 🔐 Milestone 9: Robust Security & Privacy Measures
+- [ ] Conduct thorough security audit of all data flows
+- [ ] Implement additional client-side privacy protections
+- [ ] Create regular data cleanup processes for stale content
+- [ ] Add comprehensive privacy documentation for users
+- [ ] Build abuse prevention mechanisms
+- [ ] Implement rate limiting for API endpoints
+- [ ] Test security measures with ethical hacking techniques
+- [ ] Create privacy compliance documentation (GDPR, CCPA)
+
+### ⚡ Milestone 10: Scalability & Optimization
+- [ ] Optimize asset loading with responsive images and lazy loading
+- [ ] Implement database sharding for geographical data
+- [ ] Create edge-optimized delivery for photo content
+- [ ] Add performance monitoring and real-time analytics
+- [ ] Implement CDN caching strategies
+- [ ] Build load testing scenarios and benchmarks
+- [ ] Optimize JavaScript bundle size and execution
+- [ ] Create comprehensive performance test suite
+
+## Continuous Testing & Deployment
+- [ ] Set up Netlify CI/CD pipeline with test integration
+- [ ] Create visual regression tests with Playwright
+- [ ] Implement accessibility testing in CI pipeline
+- [ ] Add performance testing thresholds for deployment approval
+- [ ] Build automated security scanning
+- [ ] Implement versioned deployments with rollback capability
+- [ ] Create comprehensive test documentation
+- [ ] Add test coverage reporting
+
+## Public API Integration for Initial Content
+- [ ] Research and select appropriate free public APIs
+- [ ] Create data transformer utilities for API responses
+- [ ] Implement rate limiting and caching for API requests
+- [ ] Add attribution for third-party content
+- [ ] Build fallback content for offline or API failure scenarios
+- [ ] Document API dependencies and alternatives
 
