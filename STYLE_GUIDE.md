@@ -12,11 +12,11 @@
 
 ## 🧩 Project Standards
 
--   **Test-Driven Development:** Write failing tests first, then the minimal code needed to pass
+-   **Test-Driven Development:** Write failing end-to-end tests first, then the minimal code needed to pass
 -   **Documentation:** Log all significant changes in `CHANGELOG.md`
 -   **Component Architecture:** Web components are required for DOM interactions
 -   **Programming Paradigms:** Prefer functional programming for data transformations and OOP for complex control flows
--   **Test Coverage:** Ensure comprehensive end-to-end testing with Playwright
+-   **Test Coverage:** Ensure comprehensive end-to-end testing of user-facing pages with Playwright
 -   **Directory Structure:** Structure codebases in long, flat directories rather than deeply nested ones
 
 ## 📝 Coding Guidelines
@@ -58,7 +58,6 @@
 
 -   **Semantic HTML:** Utilize HTML5 elements for proper document structure
 -   **Lean Markup:** Write minimal HTML with few wrapper elements
--   **Separation of Concerns:** Keep HTML (structure) and CSS (presentation) clearly separated
 -   **CSS Selectors:** Use simple, shallow selectors; avoid overly nested rules
 -   **Mobile-First:** Prioritize mobile-first design and progressive enhancement
 -   **Accessibility:** Adhere strictly to WCAG AA guidelines minimum; ensure keyboard navigation
@@ -66,9 +65,9 @@
 
 ## 🧪 Testing Principles
 
--   **TDD Workflow:** Follow Red-Green-Refactor cycle
--   **Test First:** Write tests before implementing features
--   **Test Coverage:** Each feature requires corresponding tests
+-   **Real User Flow Testing:** Only test functionality through user-facing web pages
+-   **No Mocks:** Do not create mocks, fixtures, or unit tests—only end-to-end tests of actual pages
+-   **Test First:** Write tests before implementing features that interact with what a user would see
 -   **Isolation:** Tests should be independent and not depend on other tests
 -   **Documentation:** Tests serve as documentation; write clear test descriptions
 

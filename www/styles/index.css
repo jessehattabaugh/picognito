@@ -206,3 +206,26 @@ footer {
 .social-links a:hover {
 	background-color: var(--color-primary);
 }
+
+/* Main styles for index page */
+
+map-container {
+	display: block;
+	width: 100%;
+	height: 400px;
+	margin: 2rem 0;
+}
+
+#map {
+	width: 100%;
+	height: 100%;
+}
+
+.photo-marker {
+	cursor: pointer;
+}
+
+.photo-popup {
+	text-align: center;
+	padding: 10px;
+}

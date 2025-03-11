@@ -2,11 +2,15 @@
 
 ## 🚦 Testing Philosophy
 
-Testing in Picognito follows strict Test-Driven Development (TDD) principles. Every feature begins with a failing test, followed by the minimal code needed to make it pass.
+Testing in Picognito follows a pragmatic end-to-end approach. We exclusively create tests that interact with real HTML pages through the user interface, just as actual users would. Every feature begins with a failing test, followed by the minimal code needed to make it pass according to Test-Driven Development (TDD) principles.
 
-1. **Red**: Write a failing test for new functionality or bug
-2. **Green**: Write minimal code to make the test pass
-3. **Refactor**: Improve code while keeping tests passing
+- **User-Centric Testing:** Test only what actual users will see and interact with
+- **End-to-End Focus:** No unit tests, mocks, or fixtures—only real page interactions
+- **Real Pages Only:** Test actual HTML files that are part of the website
+- **Isolate State:** Tests should not depend on each other; each should set up its state independently.
+- **Prefer using explicit waits:** Leverage built-in waiting mechanisms provided by Playwright like auto-waiting and `await page.waitForSelector()`
+- **Keep it Simple** Avoid writing overly granular tests that add little value and significantly increase runtime.
+
 
 ## 🧪 Running Tests
 
@@ -54,51 +58,48 @@ npm run build
 
 ## ⚙️ Test Structure
 
-- **File Naming**: Use descriptive names with `.spec.js` suffix
-- **Test Grouping**: Use `describe` for feature grouping and `test`/`it` for specific scenarios
-- **Assertions**: Make clear, specific assertions using Playwright's expect API
+- **File Naming**: Each test file corresponds to an actual `.html` file in `/www`
+- **Test Grouping**: Use `describe` for feature grouping and `test`/`it` for specific user scenarios, Group related tests logically (by feature, component, or user journey). Use descriptive names that clearly indicate the test’s purpose and expected outcome.
+- **Accessible Selectors**: Use selectors that select for attributes that are needed by screenreaders (like ARIA Roles) to include accessibility checking in every test
+- **Assertions**: Make clear, specific assertions about what users would see or experience
 
 Example test structure:
 
 ```js
-// test/feature.spec.js
+// test/map-page.spec.js
 import { test, expect } from '@playwright/test';
 
-test.describe('Feature Name', () => {
-	test('should behave correctly in normal conditions', async ({ page }) => {
-		// Setup
-		await page.goto('/feature');
+test.describe('Map Page', () => {
+	test('should display the map when user visits the page', async ({ page }) => {
+		// Navigate to the actual page
+		await page.goto('/map.html');
 
-		// Action
-		await page.click('button');
-
-		// Assertion
-		await expect(page.locator('.result')).toHaveText('Success');
+		// Verify what a user would see
+		await expect(page.locator('.leaflet-container')).toBeVisible();
+		await expect(page.locator('.leaflet-control-zoom')).toBeVisible();
 	});
 
-	test('should handle edge cases appropriately', async ({ page }) => {
-		// ...
+	test('should show user location when permission is granted', async ({ page }) => {
+		// Mock geolocation for testing
+		await page.setGeolocation({ latitude: 51.507, longitude: -0.127 });
+		await page.context().grantPermissions(['geolocation']);
+
+		// Navigate to the page
+		await page.goto('/map.html');
+
+		// Click the "Find my location" button that a user would click
+		await page.click('#locate-me-button');
+
+		// Verify the map centers on user's location (what the user would see)
+		const mapCenter = await page.evaluate(() => {
+			const mapElement = document.querySelector('map-container');
+			return mapElement?.getCenter?.();
+		});
+		expect(mapCenter?.lat).toBeCloseTo(51.507, 1);
+		expect(mapCenter?.lng).toBeCloseTo(-0.127, 1);
 	});
 });
 ```
-
-## 📊 Test Coverage Expectations
-
-- **Unit Tests**: Core utilities and helpers
-- **Component Tests**: Web component functionality in isolation
-- **Integration Tests**: Component interactions and data flows
-- **E2E Tests**: Complete user flows and scenarios
-- **Accessibility Tests**: WCAG compliance using Playwright's accessibility tools
-- **Visual Tests**: UI appearance using screenshot comparisons
-- **Performance Tests**: Load time and responsiveness metrics
-
-## 🔄 Development Workflow
-
-1. Start by writing tests in the `/test` directory
-2. Run tests to verify they fail properly (Red phase)
-3. Implement minimal code in `/www` to make tests pass (Green phase)
-4. Refine implementation while maintaining test coverage (Refactor phase)
-5. Document changes in CHANGELOG.md
 
 ## 🧰 Testing Resources
 

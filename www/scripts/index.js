@@ -4,15 +4,13 @@
  */
 
 /**
- * @typedef {import('../components/image-carousel.js').ImageCarousel} ImageCarousel
- * @typedef {import('../components/map-container.js').MapContainer} MapContainer
+ * @typedef {import('../components/image-carousel.js').ImageCarousel} ImageCarouselComponent
  * @typedef {CustomEvent<{index: number, total: number}>} SlideChangeEvent
  */
 
 // Import web components
 import { CarouselItem } from '/components/carousel-item.js';
-import { ImageCarousel as ImageCarouselComponent } from '/components/image-carousel.js';
-import { MapContainer as MapContainerComponent } from '/components/map-container.js';
+import { ImageCarousel } from '/components/image-carousel.js';
 import { SiteFooter } from '/components/site-footer.js';
 import { SiteHeader } from '/components/site-header.js';
 
@@ -26,15 +24,11 @@ if (!customElements.get('site-footer')) {
 }
 
 if (!customElements.get('image-carousel')) {
-	customElements.define('image-carousel', ImageCarouselComponent);
+	customElements.define('image-carousel', ImageCarousel);
 }
 
 if (!customElements.get('carousel-item')) {
 	customElements.define('carousel-item', CarouselItem);
-}
-
-if (!customElements.get('map-container')) {
-	customElements.define('map-container', MapContainerComponent);
 }
 
 /**
@@ -53,34 +47,18 @@ function updateDynamicContent() {
  * @returns {void}
  */
 function setupEventListeners() {
-	/** @type {ImageCarousel | null} */
+	/** @type {ImageCarouselComponent | null} */
 	const carousel = document.querySelector('image-carousel');
 	if (carousel) {
 		carousel.addEventListener(
 			'slide-change',
 			/** @param {Event} e */ (e) => {
-				console.log('🚀🛠️ slide-change event triggered');
+				console.log('🏠 🛠️ slide-change event triggered');
 				let event = /** @type {CustomEvent<{ index: number, total: number }>} */ (e);
 				const { index, total } = event.detail;
 				console.log('🎠 📊', `Slide changed to ${index} of ${total}`);
 			},
 		);
-	}
-
-	/** @type {MapContainer | null} */
-	const mapContainer = document.querySelector('map-container');
-	if (mapContainer) {
-		console.info('🗺️ 🔍', 'Map container found and initialized');
-		mapContainer.addEventListener('map-ready', () => {
-			console.log('🗺️ ✅', 'Map is ready for interaction');
-		});
-	}
-
-	const ctaButton = document.querySelector('.cta-button');
-	if (ctaButton) {
-		ctaButton.addEventListener('click', () => {
-			console.debug('🔘 CTA button clicked');
-		});
 	}
 }
 
@@ -88,14 +66,14 @@ function setupEventListeners() {
 document.addEventListener('DOMContentLoaded', () => {
 	updateDynamicContent();
 	setupEventListeners();
-	console.log('🏠 Homepage initialized successfully');
+	console.log('🏠 📝 Homepage initialized successfully');
 });
 
 // Support for browsers that don't emit DOMContentLoaded when scripts are loaded with defer
 if (document.readyState === 'interactive' || document.readyState === 'complete') {
 	updateDynamicContent();
 	setupEventListeners();
-	console.log('🏠 Homepage initialized (document already loaded)');
+	console.log('🏠 📝 Homepage initialized (document already loaded)');
 }
 
 // Export key functions for potential reuse or testing

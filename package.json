@@ -8,11 +8,12 @@
 		"glob": "latest",
 		"globals": "latest",
 		"leaflet": "latest",
-		"netlify-cli": "latest"
+		"netlify-cli": "latest",
+		"start-server-and-test": "latest"
 	},
 	"scripts": {
-		"accept": "node bin/accept-snapshots.js",
 		"build": "node bin/prepare-screenshots.js",
+		"dev": "start-test 3000",
 		"kill": "npx kill-port 3000",
 		"lint": "eslint .",
 		"start": "netlify dev",

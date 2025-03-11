@@ -18,7 +18,7 @@ picognito/
 ├── netlify/       # Netlify integration
 │   └── functions/ # Serverless functions
 ├── snapshots/     # Screenshots taken during tests
-├── test/          # End-to-end tests
+├── test/          # End-to-end tests of user-facing pages
 │   └── utils/     # Test utilities
 └── www/           # Static web assets (published directory)
     ├── components/ # Web components
@@ -31,7 +31,7 @@ picognito/
 - **Frontend**: HTML/CSS/JavaScript with Web Components architecture
 - **Mapping**: Leaflet for interactive maps and location features
 - **Backend**: Netlify Functions & Database for serverless operations
-- **Testing**: Playwright for end-to-end and visual regression testing
+- **Testing**: Playwright for end-to-end testing of actual user-facing pages
 - **PWA**: Service workers and manifests for offline capabilities
 
 ## 🏗️ Technical Architecture
@@ -43,6 +43,7 @@ picognito/
 - **Progressive Enhancement**: Core functionality works without JS
 - **Offline-First**: Service worker with strategic caching
 - **Accessibility**: WCAG AA compliance as minimum standard
+- **Testing**: End-to-end tests of user-visible pages and functionality
 
 ### Technical Choices
 
@@ -57,6 +58,11 @@ picognito/
 - **Netlify Forms**: For contact form submissions
 - **Netlify Identity**: For optional admin functionality
 - **Netlify Database**: Storage for shared photos
+
+#### Testing Stack
+- **Playwright**: End-to-end testing of real HTML pages and user interactions
+- **Screenshot Testing**: Visual regression testing with approved baselines
+- **Test-Driven Development**: Start with failing tests of real user interfaces
 
 ## 🛣️ Data Flow Architecture
 

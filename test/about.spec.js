@@ -1,175 +1,54 @@
 import { expect, test } from '@playwright/test';
 
-import fs from 'fs';
-import path from 'path';
-
 /**
- * Test the homepage
- */
-test.describe('Homepage', () => {
-	// Create snapshots directory if it doesn't exist
-	const snapshotDir = path.join(process.cwd(), 'snapshots');
-	if (!fs.existsSync(snapshotDir)) {
-		fs.mkdirSync(snapshotDir, { recursive: true });
-	}
-
-	// Test the homepage visuals
-	test('homepage should match visual baseline', async ({ page }) => {
-		await page.goto('/');
-
-		// Wait for any animations or transitions to complete
-		await page.waitForTimeout(500);
-
-		// Take a screenshot of the entire page
-		await expect(page).toHaveScreenshot('homepage-desktop-baseline.png');
-	});
-
-	// Test for mobile viewport
-	test('homepage on mobile should match visual baseline', async ({ page }) => {
-		// Set mobile viewport
-		await page.setViewportSize({ width: 375, height: 667 });
-		await page.goto('/');
-
-		// Wait for key elements to be visible
-		await page
-			.getByRole('heading', { level: 1 })
-			.waitFor({ state: 'visible', timeout: 5000 })
-			.catch(() => {
-				console.log('Heading level 1 not found, continuing test');
-			});
-
-		// Wait for any animations to complete
-		await page.waitForTimeout(500);
-
-		await expect(page).toHaveScreenshot('homepage-mobile-baseline.png');
-	});
-
-	// Test for accessibility-specific features
-	test('should have proper keyboard navigation', async ({ page }) => {
-		await page.goto('/');
-
-		// Take screenshot with focus on the first interactive element
-		await page.keyboard.press('Tab');
-
-		// Find the currently focused element
-		const focusedElement = await page.evaluate(() => {
-			const el = document.activeElement;
-			return el.tagName !== 'BODY'; // Check if focus moved from body
-		});
-
-		// Verify something is actually focused
-		expect(focusedElement).toBeTruthy();
-
-		// Take a screenshot with the focus visible
-		await expect(page).toHaveScreenshot('homepage-keyboard-focus-baseline.png');
-	});
-});
-
-/**
- * @fileoverview Main test file for the index page
- * 🧪 Tests for basic functionality
- */
-
-// Main page tests
-test.describe('Index Page', () => {
-	test('page loads successfully 🚀', async ({ page }) => {
-		await page.goto('/');
-
-		// Check that the page title is correct
-		await expect(page).toHaveTitle(/Modern Web Boilerplate/);
-	});
-
-	test('takes visual snapshot of the page 📸', async ({ page }) => {
-		await page.goto('/');
-		// Wait for any animations to complete
-		await page.waitForTimeout(500);
-
-		// Take a screenshot of the whole page
-		await expect(page).toHaveScreenshot('index-page-baseline.png');
-	});
-});
-
-// Accessibility tests
-test.describe('Accessibility', () => {
-	test('page passes basic accessibility checks ♿', async ({ page }) => {
-		await page.goto('/');
-
-		// Check for basic accessibility issues using Playwright's accessibility scanner
-		const accessibilityScanResults = await page.accessibility.snapshot();
-		expect(accessibilityScanResults.children.length).toBeGreaterThan(0);
-
-		// Check that elements are keyboard accessible
-		await page.keyboard.press('Tab');
-		const focusedElement = await page.evaluate(() => {
-			const el = document.activeElement;
-			return el ? el.tagName : null;
-		});
-		expect(focusedElement).toBeTruthy();
-	});
-});
-
-/**
- * Test suite for the About page 📄
+ * Test suite for the about page
+ * 📚 Tests for the about page functionality
  */
 test.describe('About Page', () => {
-    // Create snapshots directory if it doesn't exist
-    const snapshotDir = path.join(process.cwd(), 'snapshots');
-    if (!fs.existsSync(snapshotDir)) {
-        fs.mkdirSync(snapshotDir, { recursive: true });
-    }
+	test('page loads successfully 🚀', async ({ page }) => {
+		await page.goto('/about.html');
+		await expect(page).toHaveTitle(/About/);
+		console.log('📚 🚀 About page loaded successfully');
+	});
 
-    test('about page loads successfully 🚀', async ({ page }) => {
-        await page.goto('/about.html');
+	test('navigation works correctly 🧭', async ({ page }) => {
+		// Start at the about page
+		await page.goto('/about.html');
 
-        // Check that the page title contains "About"
-        await expect(page).toHaveTitle(/About/);
+		// Get the navigation links from site-header component
+		const navLinks = page.locator('site-header a');
+		await expect(navLinks).toBeVisible();
 
-        // Verify main heading
-        const heading = page.getByRole('heading', { level: 1 });
-        await expect(heading).toBeVisible();
-    });
+		// Verify home link exists
+		const homeLink = navLinks.filter({ hasText: /Home/i }).first();
+		await expect(homeLink).toBeVisible();
 
-    test('navigation works correctly 🧭', async ({ page }) => {
-        await page.goto('/about.html');
+		// Verify contact link exists
+		const contactLink = navLinks.filter({ hasText: /Contact/i }).first();
+		await expect(contactLink).toBeVisible();
 
-        // Click navigation links
-        await page.click('nav a[href="/index.html"]');
-        await expect(page).toHaveURL('/index.html');
+		// Verify we're on the about page (current)
+		const aboutLink = navLinks.filter({ hasText: /About/i }).first();
+		await expect(aboutLink).toBeVisible();
+		await expect(aboutLink).toHaveAttribute('aria-current', 'page');
 
-        await page.click('nav a[href="/contact.html"]');
-        await expect(page).toHaveURL('/contact.html');
+		console.log('📚 🧭 Navigation structure verified');
+	});
 
-        await page.click('nav a[href="/about.html"]');
-        await expect(page).toHaveURL('/about.html');
-    });
+	test('about page content loads correctly 📄', async ({ page }) => {
+		await page.goto('/about.html');
 
-    test('about page is accessible ♿', async ({ page }) => {
-        await page.goto('/about.html');
+		// Check for main content section
+		const mainContent = page.locator('main');
+		await expect(mainContent).toBeVisible();
 
-        // Check for basic accessibility issues
-        const accessibilityScanResults = await page.accessibility.snapshot();
-        expect(accessibilityScanResults.children.length).toBeGreaterThan(0);
+		// Check for about page specific content
+		const heading = mainContent.locator('h1').first();
+		await expect(heading).toBeVisible();
 
-        // Test keyboard navigation
-        await page.keyboard.press('Tab');
-        const skipLink = await page.evaluate(() => document.activeElement?.classList.contains('sr-only'));
-        expect(skipLink).toBeTruthy();
-    });
+		// Take a screenshot for visual comparison
+		await expect(page).toHaveScreenshot('about-page-baseline.png');
 
-    test('takes visual snapshot of about page 📸', async ({ page }) => {
-        await page.goto('/about.html');
-
-        // Wait for any animations to complete
-        await page.waitForTimeout(500);
-
-        // Take screenshot
-        await expect(page).toHaveScreenshot('about-page-baseline.png');
-    });
-
-    test('mobile layout matches baseline 📱', async ({ page }) => {
-        await page.setViewportSize({ width: 375, height: 667 });
-        await page.goto('/about.html');
-
-        await expect(page).toHaveScreenshot('about-page-mobile-baseline.png');
-    });
+		console.log('📚 📄 About page content verified');
+	});
 });

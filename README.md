@@ -20,13 +20,19 @@ npm install
 
 # Start development server
 npm start
+```
 
-# Run tests
+## 🧪 Testing
+
+```bash
+# Run end-to-end tests against actual pages
 npm test
 
 # Accept screenshot changes
 npm run accept
 ```
+
+Our testing approach focuses exclusively on end-to-end tests that interact with actual web pages through the user interface, just as real users would. See [TESTING.md](TESTING.md) for details.
 
 ## 📊 Project Status
 

@@ -1,112 +1,135 @@
 <!DOCTYPE html>
 <html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta
+			name="description"
+			content="A modern web boilerplate with cutting-edge features"
+			data-site-description
+		/>
+		<meta name="theme-color" content="#000000" />
+		<meta name="color-scheme" content="dark light" />
+		<meta name="view-transition" content="same-origin" />
 
-<head>
-	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1" />
-	<meta name="description" content="A modern web boilerplate with cutting-edge features" data-site-description>
-	<meta name="theme-color" content="#000000">
-	<meta name="color-scheme" content="dark light">
-	<meta name="view-transition" content="same-origin">
+		<title>Modern Web Boilerplate</title>
+		<link rel="manifest" href="/manifest.json" />
+		<link rel="icon" href="/favicon.ico" />
 
-	<title>Modern Web Boilerplate</title>
-	<link rel="manifest" href="/manifest.json">
-	<link rel="icon" href="/favicon.ico">
+		<!-- Stylesheets -->
+		<link rel="stylesheet" href="/styles/all.css" />
+		<link rel="stylesheet" href="/styles/index.css" />
+		<link rel="stylesheet" href="/styles/wide.css" media="(min-width: 960px)" />
+		<link rel="stylesheet" href="/styles/print.css" media="print" />
+		<!-- Leaflet CSS from CDN -->
+		<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 
-	<!-- Stylesheets -->
-	<link rel="stylesheet" href="/styles/all.css">
-	<link rel="stylesheet" href="/styles/index.css">
-	<link rel="stylesheet" href="/styles/wide.css" media="(min-width: 960px)">
-	<link rel="stylesheet" href="/styles/print.css" media="print">
-
-	<!-- JavaScript modules with performance attributes -->
-	<script type="module" async src="/scripts/async.js"></script>
-	<script type="module" defer src="/scripts/index.js"></script>
-</head>
-
-<body>
-	<a href="#main-content" class="sr-only focus-visible">Skip to main content</a>
-
-	<site-header>
-		<ul>
-			<li><a href="/index.html" aria-current="page">Home</a></li>
-			<li><a href="/about.html">About</a></li>
-			<li><a href="/contact.html">Contact</a></li>
-		</ul>
-	</site-header>
-
-	<main id="main-content" class="container" tabindex="-1">
-		<section class="hero">
-			<div class="hero-overlay"></div>
-			<div class="hero-content">
-				<h1>Modern Web Boilerplate</h1>
-				<p>A lightweight, accessible, and modern starting point for web projects</p>
-				<a href="/about.html" class="cta-button">Learn More</a>
-			</div>
-		</section>
-
-		<section class="features">
-			<article class="feature-card">
-				<h2>Modern JavaScript</h2>
-				<p>ES Modules, Web Components, and clean code patterns for maintainable projects</p>
-			</article>
-
-			<article class="feature-card">
-				<h2>Accessibility First</h2>
-				<p>WCAG-compliant markup, keyboard navigation, and screen reader support built-in</p>
-			</article>
-
-			<article class="feature-card">
-				<h2>Performance Focused</h2>
-				<p>Optimized for Core Web Vitals and fast loading on all devices</p>
-			</article>
-		</section>
-
-		<section aria-labelledby="testimonials-heading">
-			<h2 id="testimonials-heading">What People Say</h2>
-			<image-carousel auto-play interval="5000" aria-label="Testimonials carousel">
-				<carousel-item>
-					<blockquote class="testimonial">
-						<p>This boilerplate saved me hours of setup time. Highly recommended!</p>
-						<footer class="testimonial-author">
-							<cite>Alex Chen, Web Developer</cite>
-						</footer>
-					</blockquote>
-				</carousel-item>
-				<carousel-item>
-					<blockquote class="testimonial">
-						<p>The accessibility features are top-notch and helped me build an inclusive web app.</p>
-						<footer class="testimonial-author">
-							<cite>Jordan Taylor, UX Designer</cite>
-						</footer>
-					</blockquote>
-				</carousel-item>
-			</image-carousel>
-		</section>
-	</main>
-
-	<div id="map" tabindex="0">
-		<div class="leaflet-pane"></div>
-	</div>
-
-	<site-footer>
-		<p>Built with <span aria-hidden="true">❤️</span><span class="sr-only">love</span> and modern web standards</p>
-		<p>&copy; <span id="current-year">2023</span> Modern Web Boilerplate</p>
-	</site-footer>
-
-	<script type="module">
-		/**
-		 * @typedef {HTMLElement} Element
-		 */
-		const map = document.getElementById('map');
-		// Add ArrowUp listener to simulate keyboard navigation for map interactions
-		map.addEventListener('keydown', (event) => {
-			if (event.key === 'ArrowUp') {
-				map.classList.add('focused');
-				console.log('Map keyboard event handled 🚀🗺️');
+		<!-- Import map for ESM modules -->
+		<script type="importmap">
+			{
+				"imports": {
+					"leaflet": "https://esm.sh/leaflet@1.9.4"
+				}
 			}
-		});
-	</script>
-</body>
+		</script>
 
+		<!-- JavaScript modules with performance attributes -->
+		<script type="module" async src="/scripts/async.js"></script>
+		<script type="module" defer src="/scripts/index.js"></script>
+		<script type="module" defer src="/scripts/map.js"></script>
+	</head>
+
+	<body>
+		<a href="#main-content" class="sr-only focus-visible">Skip to main content</a>
+
+		<site-header>
+			<ul>
+				<li><a href="/index.html" aria-current="page">Home</a></li>
+				<li><a href="/about.html">About</a></li>
+				<li><a href="/contact.html">Contact</a></li>
+			</ul>
+		</site-header>
+
+		<main id="main-content" class="container" tabindex="-1">
+			<section class="hero">
+				<div class="hero-overlay"></div>
+				<div class="hero-content">
+					<h1>Modern Web Boilerplate</h1>
+					<p>A lightweight, accessible, and modern starting point for web projects</p>
+					<a href="/about.html" class="cta-button">Learn More</a>
+				</div>
+			</section>
+
+			<section class="features">
+				<article class="feature-card">
+					<h2>Modern JavaScript</h2>
+					<p>
+						ES Modules, Web Components, and clean code patterns for maintainable
+						projects
+					</p>
+				</article>
+
+				<article class="feature-card">
+					<h2>Accessibility First</h2>
+					<p>
+						WCAG-compliant markup, keyboard navigation, and screen reader support
+						built-in
+					</p>
+				</article>
+
+				<article class="feature-card">
+					<h2>Performance Focused</h2>
+					<p>Optimized for Core Web Vitals and fast loading on all devices</p>
+				</article>
+			</section>
+
+			<section aria-labelledby="testimonials-heading">
+				<h2 id="testimonials-heading">What People Say</h2>
+				<image-carousel auto-play interval="5000" aria-label="Testimonials carousel">
+					<carousel-item>
+						<blockquote class="testimonial">
+							<p>
+								This boilerplate saved me hours of setup time. Highly recommended!
+							</p>
+							<footer class="testimonial-author">
+								<cite>Alex Chen, Web Developer</cite>
+							</footer>
+						</blockquote>
+					</carousel-item>
+					<carousel-item>
+						<blockquote class="testimonial">
+							<p>
+								The accessibility features are top-notch and helped me build an
+								inclusive web app.
+							</p>
+							<footer class="testimonial-author">
+								<cite>Jordan Taylor, UX Designer</cite>
+							</footer>
+						</blockquote>
+					</carousel-item>
+				</image-carousel>
+			</section>
+		</main>
+		<map-container tabindex="0"></map-container>
+		<site-footer>
+			<p>
+				Built with <span aria-hidden="true">❤️</span><span class="sr-only">love</span> and
+				modern web standards
+			</p>
+			<p>&copy; <span id="current-year">2023</span> Modern Web Boilerplate</p>
+		</site-footer>
+		<script type="module">
+			/**
+			 * @typedef {HTMLElement} Element
+			 */
+			const mapContainer = document.querySelector('map-container');
+			// Add ArrowUp listener to simulate keyboard navigation for map interactions
+			mapContainer.addEventListener('keydown', (event) => {
+				if (event.key === 'ArrowUp') {
+					mapContainer.classList.add('focused');
+					console.log('Map keyboard event handled 🚀🗺️');
+				}
+			});
+		</script>
+	</body>
 </html>
