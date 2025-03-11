@@ -5,12 +5,14 @@
 
 /**
  * @typedef {import('../components/image-carousel.js').ImageCarousel} ImageCarousel
+ * @typedef {import('../components/map-container.js').MapContainer} MapContainer
  * @typedef {CustomEvent<{index: number, total: number}>} SlideChangeEvent
  */
 
 // Import web components
 import { CarouselItem } from '/components/carousel-item.js';
 import { ImageCarousel as ImageCarouselComponent } from '/components/image-carousel.js';
+import { MapContainer as MapContainerComponent } from '/components/map-container.js';
 import { SiteFooter } from '/components/site-footer.js';
 import { SiteHeader } from '/components/site-header.js';
 import { ThemeToggle } from '/components/theme-toggle.js';
@@ -36,6 +38,10 @@ if (!customElements.get('carousel-item')) {
 	customElements.define('carousel-item', CarouselItem);
 }
 
+if (!customElements.get('map-container')) {
+	customElements.define('map-container', MapContainerComponent);
+}
+
 /**
  * Update dynamic content on the page
  */
@@ -43,7 +49,7 @@ function updateDynamicContent() {
 	// Update current year in footer
 	const yearElement = document.getElementById('current-year');
 	if (yearElement) {
-		yearElement.textContent = new Date().getFullYear();
+		yearElement.textContent = new Date().getFullYear().toString();
 	}
 }
 
@@ -57,11 +63,20 @@ function setupEventListeners() {
 	if (carousel) {
 		carousel.addEventListener(
 			'slide-change',
-			/** @param {CustomEvent} e */ (e) => {
+			/** @param {SlideChangeEvent} e */ (e) => {
 				const { index, total } = e.detail;
 				console.log('🎠 📊', `Slide changed to ${index} of ${total}`);
 			},
 		);
+	}
+
+	/** @type {MapContainer | null} */
+	const mapContainer = document.querySelector('map-container');
+	if (mapContainer) {
+		console.info('🗺️ 🔍', 'Map container found and initialized');
+		mapContainer.addEventListener('map-ready', () => {
+			console.log('🗺️ ✅', 'Map is ready for interaction');
+		});
 	}
 
 	const ctaButton = document.querySelector('.cta-button');
