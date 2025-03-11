@@ -67,7 +67,7 @@ test.describe('Homepage', () => {
 
 /**
  * @fileoverview Main test file for the index page
- * 🧪 Tests for basic functionality and theme toggle
+ * 🧪 Tests for basic functionality
  */
 
 // Main page tests
@@ -77,10 +77,6 @@ test.describe('Index Page', () => {
 
 		// Check that the page title is correct
 		await expect(page).toHaveTitle(/Modern Web Boilerplate/);
-
-		// Check that the page has a theme toggle component
-		const themeToggle = page.locator('theme-toggle');
-		await expect(themeToggle).toBeVisible();
 	});
 
 	test('takes visual snapshot of the page 📸', async ({ page }) => {
@@ -102,7 +98,7 @@ test.describe('Accessibility', () => {
 		const accessibilityScanResults = await page.accessibility.snapshot();
 		expect(accessibilityScanResults.children.length).toBeGreaterThan(0);
 
-		// Check that the theme toggle is keyboard accessible
+		// Check that elements are keyboard accessible
 		await page.keyboard.press('Tab');
 		const focusedElement = await page.evaluate(() => {
 			const el = document.activeElement;

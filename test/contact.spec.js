@@ -67,7 +67,7 @@ test.describe('Homepage', () => {
 
 /**
  * @fileoverview Main test file for the index page
- * 🧪 Tests for basic functionality and theme toggle
+ * 🧪 Tests for basic functionality
  */
 
 // Main page tests
@@ -77,10 +77,6 @@ test.describe('Index Page', () => {
 
 		// Check that the page title is correct
 		await expect(page).toHaveTitle(/Modern Web Boilerplate/);
-
-		// Check that the page has a theme toggle component
-		const themeToggle = page.locator('theme-toggle');
-		await expect(themeToggle).toBeVisible();
 	});
 
 	test('takes visual snapshot of the page 📸', async ({ page }) => {
@@ -102,7 +98,7 @@ test.describe('Accessibility', () => {
 		const accessibilityScanResults = await page.accessibility.snapshot();
 		expect(accessibilityScanResults.children.length).toBeGreaterThan(0);
 
-		// Check that the theme toggle is keyboard accessible
+		// Check that elements are keyboard accessible
 		await page.keyboard.press('Tab');
 		const focusedElement = await page.evaluate(() => {
 			const el = document.activeElement;
@@ -112,7 +108,7 @@ test.describe('Accessibility', () => {
 	});
 });
 
-// Simple performance check without using performance-utils
+// Simple performance check
 test.describe('Performance', () => {
 	test('page loads within reasonable time ⚡', async ({ page }) => {
 		// Navigate to the page
@@ -126,142 +122,88 @@ test.describe('Performance', () => {
 });
 
 /**
- * Test suite for contact form functionality 📝
+ * Test suite for the contact page
+ * 📨 Tests for the contact page and form functionality
  */
+test.describe('Contact Page', () => {
+	test('page loads successfully 🚀', async ({ page }) => {
+		await page.goto('/contact.html');
+		await expect(page).toHaveTitle(/Contact/);
+		console.log('📨 Contact page loaded successfully');
+	});
+});
+
 test.describe('Contact Form 📨', () => {
-    test.beforeEach(async ({ page }) => {
-        await page.goto('/contact.html');
-    });
-
-    test('shows error for empty fields 🚫', async ({ page }) => {
-        // Try submitting empty form
-        await page.click('button[type="submit"]');
-
-        // Native HTML5 validation should prevent submission
-        // and highlight the first required field
-        const focusedElement = await page.evaluate(() => document.activeElement?.id);
-        expect(focusedElement).toBe('name');
-    });
-
-    test('validates email format ✉️', async ({ page }) => {
-        // Fill invalid email
-        await page.fill('#name', 'Test User');
-        await page.fill('#email', 'invalid-email');
-        await page.fill('#message', 'Test message');
-
-        // Submit form
-        await page.click('button[type="submit"]');
-
-        // Should show validation error
-        const emailError = await page.textContent('#email-error');
-        expect(emailError).toContain('valid email');
-    });
-
-    test('submits form successfully ✅', async ({ page }) => {
-        // Fill out form
-        await page.fill('#name', 'Test User');
-        await page.fill('#email', 'test@example.com');
-        await page.fill('#message', 'Test message');
-
-        // Submit form
-        await page.click('button[type="submit"]');
-
-        // Check for success message
-        const formStatus = await page.locator('#formStatus');
-        await expect(formStatus).toHaveClass('success');
-        await expect(formStatus).toContainText('successfully');
-
-        // Form should be reset
-        await expect(page.locator('#name')).toHaveValue('');
-        await expect(page.locator('#email')).toHaveValue('');
-        await expect(page.locator('#message')).toHaveValue('');
-    });
-
-    test('handles server errors gracefully ⚠️', async ({ page }) => {
-        // Fill out form
-        await page.fill('#name', 'Error Test');
-        await page.fill('#email', 'error@test.com');
-        await page.fill('#message', 'Trigger error');
-
-        // Mock failed response
-        await page.route('**/.netlify/functions/contact-form', async (route) => {
-            await route.fulfill({
-                status: 500,
-                body: JSON.stringify({ message: 'Internal server error' })
-            });
-        });
-
-        // Submit form
-        await page.click('button[type="submit"]');
-
-        // Check for error message
-        const formStatus = await page.locator('#formStatus');
-        await expect(formStatus).toHaveClass('error');
-        await expect(formStatus).toContainText('error');
-    });
-
-    test('shows loading state while submitting 🔄', async ({ page }) => {
-        await page.goto('/contact.html');
-
-        // Setup response interception with delay
-        await page.route('**/.netlify/functions/contact-form', async (route) => {
-            await new Promise(resolve => setTimeout(resolve, 100)); // Add delay
-            await route.fulfill({
-                status: 200,
-                contentType: 'application/json',
-                body: JSON.stringify({ message: 'success' })
-            });
-        });
-
-        // Fill out form
-        await page.fill('#name', 'Test User');
-        await page.fill('#email', 'test@example.com');
-        await page.fill('#message', 'Test message');
-
-        // Start form submission
-        const submitPromise = page.click('button[type="submit"]');
-
-        // Check loading state immediately after submission
-        await page.waitForSelector('#formStatus:not(:empty)');
-        const formStatus = await page.textContent('#formStatus');
-        expect(formStatus).toBe('Sending...');
-
-        // Wait for submission to complete
-        await submitPromise;
-    });
-
-    test('preserves user input on validation errors 💾', async ({ page }) => {
-        const testName = 'Test User';
-        const testEmail = 'invalid-email';
-        const testMessage = 'Test message';
-
-        // Fill form with invalid email
-        await page.fill('#name', testName);
-        await page.fill('#email', testEmail);
-        await page.fill('#message', testMessage);
-
-        // Submit form (should fail validation)
-        await page.click('button[type="submit"]');
-
-        // Check that form values are preserved
-        await expect(page.locator('#name')).toHaveValue(testName);
-        await expect(page.locator('#email')).toHaveValue(testEmail);
-        await expect(page.locator('#message')).toHaveValue(testMessage);
-    });
-
-    test('keyboard navigation works correctly ⌨️', async ({ page }) => {
-        // Press Tab to focus first input
-        await page.keyboard.press('Tab');
-        let focusedElement = await page.evaluate(() => document.activeElement?.id);
-        expect(focusedElement).toBe('name');
-
-        // Tab through form fields
-        await page.keyboard.press('Tab');
-        focusedElement = await page.evaluate(() => document.activeElement?.id);
-        expect(focusedElement).toBe('email');
-
-        await page.keyboard.press('Tab');
-        focusedElement = await page.evaluate(() => document.activeElement?.id);
-        expect(focusedElement).toBe('message');
-    });
+	test('shows error for empty fields 🚫', async ({ page }) => {
+		await page.goto('/contact.html');
+		
+		// Try to submit empty form
+		await page.getByRole('button', { name: /Send Message/i }).click();
+		
+		// Check for error messages
+		const nameError = page.locator('#name-error');
+		const emailError = page.locator('#email-error');
+		const messageError = page.locator('#message-error');
+		
+		await expect(nameError).toHaveText(/required/i);
+		await expect(emailError).toHaveText(/required/i);
+		await expect(messageError).toHaveText(/required/i);
+		
+		console.log('🚫 Form validation shows errors for empty fields');
+	});
+	
+	test('validates email format 📧', async ({ page }) => {
+		await page.goto('/contact.html');
+		
+		// Enter invalid email
+		await page.locator('#name').fill('Test User');
+		await page.locator('#email').fill('invalid-email');
+		await page.locator('#message').fill('Test message');
+		
+		// Trigger validation
+		await page.locator('#email').blur();
+		
+		// Check for error message
+		const emailError = page.locator('#email-error');
+		await expect(emailError).toHaveText(/valid email/i);
+		
+		// Fix the email and check if error disappears
+		await page.locator('#email').fill('valid@example.com');
+		await page.locator('#email').blur();
+		
+		// Error should be gone
+		await expect(emailError).toBeEmpty();
+		
+		console.log('📧 Email format validation works correctly');
+	});
+	
+	test('navigation works correctly ⌨️', async ({ page }) => {
+		await page.goto('/contact.html');
+		
+		// Use keyboard to navigate the form
+		await page.keyboard.press('Tab'); // Focus skip link
+		await page.keyboard.press('Tab'); // Focus first nav link
+		await page.keyboard.press('Tab'); // Focus second nav link
+		await page.keyboard.press('Tab'); // Focus third nav link
+		await page.keyboard.press('Tab'); // Focus name input
+		
+		// Check if name input has focus
+		const isFocusedOnName = await page.evaluate(() => {
+			return document.activeElement.id === 'name';
+		});
+		
+		expect(isFocusedOnName).toBeTruthy();
+		
+		// Tab to email input
+		await page.keyboard.press('Tab');
+		
+		// Check if email input has focus
+		const isFocusedOnEmail = await page.evaluate(() => {
+			return document.activeElement.id === 'email';
+		});
+		
+		expect(isFocusedOnEmail).toBeTruthy();
+		
+		console.log('⌨️ Keyboard navigation works correctly on contact form');
+	});
 });

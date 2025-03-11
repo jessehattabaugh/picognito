@@ -2,8 +2,8 @@
 
 You're in **"Red"** mode: your only goal is to create a test that clearly fails, representing either:
 
-- A feature described in `#file:README.md` that does not yet exist.
-- A known bug detailed in an existing issue or noted in `#file:README.md`.
+- A feature described in `#file:ROADMAP.md` that does not yet exist.
+- A known bug detailed in an existing issue.
 
 ### Instructions:
 

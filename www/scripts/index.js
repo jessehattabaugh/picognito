@@ -15,7 +15,6 @@ import { ImageCarousel as ImageCarouselComponent } from '/components/image-carou
 import { MapContainer as MapContainerComponent } from '/components/map-container.js';
 import { SiteFooter } from '/components/site-footer.js';
 import { SiteHeader } from '/components/site-header.js';
-import { ThemeToggle } from '/components/theme-toggle.js';
 
 // Register custom elements if not already registered
 if (!customElements.get('site-header')) {
@@ -24,10 +23,6 @@ if (!customElements.get('site-header')) {
 
 if (!customElements.get('site-footer')) {
 	customElements.define('site-footer', SiteFooter);
-}
-
-if (!customElements.get('theme-toggle')) {
-	customElements.define('theme-toggle', ThemeToggle);
 }
 
 if (!customElements.get('image-carousel')) {
