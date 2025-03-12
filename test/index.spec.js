@@ -11,7 +11,7 @@ test.describe('Basic Page Functionality', () => {
 	// Basic functionality
 	test('page loads successfully 🚀', async ({ page }) => {
 		await page.goto('/');
-		await expect(page).toHaveTitle(/Modern Web Boilerplate/);
+		await expect(page).toHaveTitle(/Picognito/);
 		console.log('🏠 🚀 Homepage loaded successfully');
 	});
 

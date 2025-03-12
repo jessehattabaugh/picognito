@@ -18,7 +18,7 @@ export class SiteFooter extends HTMLElement {
             <link rel="stylesheet" href="/components/site-footer.css">
             <footer>
                 <div class="container">
-                    <p>&copy; ${currentYear} Modern Web Boilerplate. All rights reserved.</p>
+                    <p>&copy; ${currentYear} Picognito. All rights reserved.</p>
                     <slot></slot>
                 </div>
             </footer>

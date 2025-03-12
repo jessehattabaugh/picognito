@@ -13,7 +13,7 @@
 	},
 	"scripts": {
 		"build": "node bin/prepare-screenshots.js",
-		"dev": "start-test 3000",
+		"dev": "npm run kill && start-test 3000",
 		"kill": "npx kill-port 3000",
 		"lint": "eslint .",
 		"start": "netlify dev",

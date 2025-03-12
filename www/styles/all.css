@@ -404,3 +404,109 @@ html {
     border-radius: var(--border-radius-md);
     outline: none;
 }
+
+/* Header and Footer Styles */
+header, footer {
+	background-color: var(--color-surface);
+	padding: var(--space-4) 0;
+	border-top: var(--border-width-thin) solid var(--color-border);
+	border-bottom: var(--border-width-thin) solid var(--color-border);
+}
+header nav, footer nav {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	max-width: 80rem;
+	margin: 0 auto;
+	padding: 0 var(--space-4);
+}
+header nav a, footer nav a {
+	color: var(--color-text-secondary);
+	text-decoration: none;
+	padding: var(--space-2);
+	transition: color var(--transition-fast) ease;
+}
+header nav a:hover, footer nav a:hover {
+	color: var(--color-primary);
+}
+header nav a.active {
+	color: var(--color-primary);
+	font-weight: var(--font-weight-bold);
+}
+/* Hero Section */
+.hero {
+	position: relative;
+	background: var(--color-primary);
+	color: white;
+	padding: var(--space-16) 0;
+	text-align: center;
+}
+.hero-overlay {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: rgba(0, 0, 0, 0.5);
+}
+.hero-content {
+	position: relative;
+	z-index: 1;
+}
+.cta-button {
+	display: inline-block;
+	background: var(--color-secondary);
+	color: white;
+	padding: var(--space-3) var(--space-6);
+	border-radius: var(--border-radius-md);
+	text-decoration: none;
+	transition: background var(--transition-fast) ease;
+}
+.cta-button:hover {
+	background: var(--color-secondary-dark);
+}
+/* Feature Cards */
+.features {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--space-4);
+	justify-content: center;
+	padding: var(--space-16) 0;
+}
+.feature-card {
+	background: var(--color-surface);
+	border-radius: var(--border-radius-lg);
+	box-shadow: var(--shadow-md);
+	padding: var(--space-6);
+	text-align: center;
+	flex: 1 1 calc(33.333% - var(--space-4));
+	max-width: calc(33.333% - var(--space-4));
+}
+.feature-card h2 {
+	margin-bottom: var(--space-4);
+}
+/* Testimonials */
+#testimonials-heading {
+	text-align: center;
+	margin-bottom: var(--space-8);
+}
+.testimonial {
+	background: var(--color-surface);
+	border-radius: var(--border-radius-lg);
+	box-shadow: var(--shadow-md);
+	padding: var(--space-6);
+	text-align: center;
+	max-width: 600px;
+	margin: 0 auto var(--space-8);
+}
+.testimonial-author {
+	margin-top: var(--space-4);
+	font-weight: var(--font-weight-medium);
+}
+/* Map Container */
+map-container {
+	display: block;
+	width: 100%;
+	height: 500px;
+	margin-top: var(--space-16);
+}
