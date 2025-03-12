@@ -138,7 +138,7 @@ test.describe('Map Component', () => {
 	test.beforeEach(async ({ page }) => {
 		await page.goto('/');
 		// Wait for map to be ready
-		await page.waitForSelector('map-container', { state: 'visible' });
+		await page.waitForSelector('map-container');
 	});
 
 	test('should render map container and initialize Leaflet map 🗺️', async ({ page }) => {
@@ -192,14 +192,22 @@ test.describe('Map Component', () => {
 
 		// Get map center after geolocation
 		const center = await page.evaluate(() => {
+			// Type-safe evaluation to work with custom element
 			const mapContainer = document.querySelector('map-container');
-			// Use optional chaining for safer property access
-			return mapContainer?.getCenter?.() || { lat: 0, lng: 0 };
+			// Safely access the getCenter method without TypeScript errors
+			if (
+				mapContainer &&
+				'getCenter' in mapContainer &&
+				typeof mapContainer.getCenter === 'function'
+			) {
+				return mapContainer.getCenter();
+			}
+			return { lat: 0, lng: 0 };
 		});
 
 		// Verify map centered correctly
-		expect(center?.lat).toBeCloseTo(40, 0);
-		expect(center?.lng).toBeCloseTo(-74, 0);
+		expect(center.lat).toBeCloseTo(40, 0);
+		expect(center.lng).toBeCloseTo(-74, 0);
 		console.log('🏠 📍 Map geolocation centering verified');
 	});
 
@@ -315,11 +323,9 @@ test.describe('Map Photos from Unsplash', () => {
 	test('should display photos from Unsplash on the map 🗺️📸', async ({ page }) => {
 		// Find photo markers on the map
 		const photoMarkers = page.locator('.photo-marker');
-
 		// Verify there are multiple photo markers visible on the map
 		await expect(photoMarkers).toBeVisible();
-		await expect(photoMarkers).toHaveCount({ min: 3 }); // Expecting at least 3 photos
-
+		await expect(photoMarkers).toHaveCount(3); // Expecting at least 3 photos
 		console.log('🗺️ 📸 Verified photo markers are displayed on the map');
 	});
 

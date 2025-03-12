@@ -24,7 +24,8 @@ test.describe('Contact Page', () => {
 		try {
 			const performanceMetrics = await page.evaluate(() => {
 				// Use a safer approach to get performance metrics
-				const nav = performance.getEntriesByType('navigation')[0];
+				/** @type {PerformanceNavigationTiming} */
+				const nav = /** @type {PerformanceNavigationTiming} */ (performance.getEntriesByType('navigation')[0]);
 				if (!nav) return null;
 
 				return {

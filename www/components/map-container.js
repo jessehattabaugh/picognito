@@ -161,32 +161,37 @@ export class MapContainer extends HTMLElement {
 			}
 
 			// Add each photo to the map
-			photos.forEach((photo, index) => {
-				// Extract location information
-				const photoLat =
-					photo.location?.position?.latitude || 51.505 + Math.random() * 0.02;
-				const photoLng =
-					photo.location?.position?.longitude || -0.09 + Math.random() * 0.02;
+			photos.forEach(
+				/**
+				 * @param {any} photo
+				 * @param {number} index
+				 */
+				(photo, index) => {
+					// Extract location information
+					const photoLat =
+						photo.location?.position?.latitude || 51.505 + Math.random() * 0.02;
+					const photoLng =
+						photo.location?.position?.longitude || -0.09 + Math.random() * 0.02;
 
-				const photoId = `photo-${photo.id || index}`;
-				const marker = L.marker([photoLat, photoLng], {
-					icon: L.divIcon({
-						className: 'photo-marker',
-						html: '<div class="marker-pin"></div>',
-					}),
-				});
+					const photoId = `photo-${photo.id || index}`;
+					const marker = L.marker([photoLat, photoLng], {
+						icon: L.divIcon({
+							className: 'photo-marker',
+							html: '<div class="marker-pin"></div>',
+						}),
+					});
 
-				const popupContent = document.createElement('div');
-				popupContent.className = 'photo-popup';
-				popupContent.setAttribute('role', 'dialog');
-				popupContent.setAttribute('aria-labelledby', `photo-title-${photoId}`);
+					const popupContent = document.createElement('div');
+					popupContent.className = 'photo-popup';
+					popupContent.setAttribute('role', 'dialog');
+					popupContent.setAttribute('aria-labelledby', `photo-title-${photoId}`);
 
-				const titleId = `photo-title-${photoId}`;
-				popupContent.innerHTML = `
+					const titleId = `photo-title-${photoId}`;
+					popupContent.innerHTML = `
 					<strong id="${titleId}" class="photographer-name">Photo by ${photo.user.name}</strong>
 					<img class="photo-thumbnail" src="${photo.urls.thumb}" alt="${
-					photo.alt_description || 'Photo'
-				}" style="width:100px;"/>
+						photo.alt_description || 'Photo'
+					}" style="width:100px;"/>
 					<div class="photo-location">📍 ${photo.description || 'Location photo'}</div>
 					<a href="${photo.links.html}?utm_source=picognito&utm_medium=referral"
 						target="_blank" rel="noopener noreferrer"
@@ -194,13 +199,14 @@ export class MapContainer extends HTMLElement {
 					<button class="close-popup" aria-label="Close photo information">Close</button>
 				`;
 
-				marker.bindPopup(popupContent);
+					marker.bindPopup(popupContent);
 
-				// Only add marker if map exists
-				if (this.map) {
-					marker.addTo(this.map);
-				}
-			});
+					// Only add marker if map exists
+					if (this.map) {
+						marker.addTo(this.map);
+					}
+				},
+			);
 
 			console.info('🗺️ 📷 Photos loaded on map');
 		} catch (error) {
@@ -329,9 +335,10 @@ export class MapContainer extends HTMLElement {
 				}
 				.attribution-link {
 					display: inline-block;
-					margin-top: 5px;
+					margin-top: 4px;
 					color: #007bff;
 					text-decoration: none;
+					font-size: 14px;
 				}
 				.attribution-link:hover {
 					text-decoration: underline;

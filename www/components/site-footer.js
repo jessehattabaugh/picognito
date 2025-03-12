@@ -4,15 +4,15 @@
  */
 export class SiteFooter extends HTMLElement {
     constructor() {
-        super();
-        this.attachShadow({ mode: 'open' });
-    }
-
+		super();
+		this.attachShadow({ mode: 'open' });
+	}
     connectedCallback() {
-        this.render();
-    }
-
+		this.render();
+	}
     render() {
+        if (!this.shadowRoot) return;
+
         const currentYear = new Date().getFullYear();
         this.shadowRoot.innerHTML = `
             <link rel="stylesheet" href="/components/site-footer.css">
